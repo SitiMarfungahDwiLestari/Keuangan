@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">Keuangan</string>
+    <string name="select_category">Pilih Kategori</string>
+    <string name="pemasukan">Pemasukan</string>
+    <string name="pengeluaran">Pengeluaran</string>
+    <string name="id_pengeluaran">id_Pengeluaran</string>
+    <string name="id_pemasukan">id_Pemasukan</string>
+    <string name="nominal_keuangan">Nominal Pemasukan</string>
+    <string name="deskripsi_keuangan">Deskripsi Pemasukan</string>
+    <string name="gaji">Gaji </string>
+    <string name="orangtua">Orang tua </string>
+    <string name="entity_data">Tambah Keuangan</string>
+    <string name="add_data_title">Entry Data</string>
+    <string name="select_transaction_type">Tipe Transaksi</string>
+    <string name="detail_keuangan">Detail Keuangan</string>
+    <string name="edit_keuangan">Edit Keuangan</string>
+    <string name="deskripsi_no_item">Tidak ada data Keuangan. Tap + untuk menambah data</string>
+    <string name="required_field">* required fields</string>
+    <string name="btn_submit">Submit</string>
+    <string name="back">Back</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+    <string name="delete">Hapus</string>
+    <string name="update">Edit</string>
+    <string name="attention">Perhatian</string>
+    <string name="tanya">Apakah anda yakin menghapus ini ?</string>
 </resources>
