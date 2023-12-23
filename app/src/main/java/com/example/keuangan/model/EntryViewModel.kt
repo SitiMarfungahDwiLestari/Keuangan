@@ -26,6 +26,7 @@ data class UIStateKeuangan(
 data class DetailKeuangan(
     val dateAdded: Long = System.currentTimeMillis(),
     val kategori: String = "",
+    val tipe : String = "",
     val nominal: Int = 0,
     val id: Int = 0,
     val deskripsi: String = " "
@@ -35,7 +36,7 @@ fun DetailKeuangan.toKeuangan(): Keuangan = Keuangan(
     dateAdded = dateAdded,
     kategori = kategori,
     nominal = nominal,
-    deskripsi = dekripsi,
+    deskripsi = deskripsi,
     id = id
 )
 
@@ -48,6 +49,6 @@ fun Keuangan.toDetailKeuangan(): DetailKeuangan = DetailKeuangan(
     dateAdded = dateAdded,
     kategori = kategori,
     nominal = nominal,
-    deskripsi = deskrisi,
+    deskripsi = deskripsi,
     id = id
 )

@@ -12,7 +12,7 @@ data class Keuangan(
 
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
-) {
+)
 
 
 @Entity(tableName = "tblPengluaran")
