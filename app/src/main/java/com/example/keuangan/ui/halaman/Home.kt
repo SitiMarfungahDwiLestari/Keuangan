@@ -25,7 +25,6 @@ import com.example.keuangan.data.Pengeluaran
 
 enum class HomeTabs { Pemasukan, Pengeluaran }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
@@ -36,7 +35,6 @@ fun Home(
         topBar = {
             TopAppBar(
                 title = { Text(text = "Home") },
-
                 )
             },
         floatingActionButton = {
@@ -57,8 +55,6 @@ fun Home(
                 .padding(innerPadding)
                 .fillMaxSize(),
         )
-
-
     }
 }
 
@@ -67,8 +63,6 @@ fun BodyHome(
     modifier: Modifier = Modifier,
 ) {
     var selectedTab by rememberSaveable { mutableStateOf(HomeTabs.Pemasukan) }
-
-
     Column(
         modifier = modifier
             .padding(16.dp),

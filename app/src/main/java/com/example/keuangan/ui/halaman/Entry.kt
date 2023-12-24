@@ -43,8 +43,7 @@ enum class EntryType{Pemasukan, Pengeluaran}
 @Composable
 fun Entry(
     navController: NavHostController,
-    modifier: Modifier = Modifier,
-    onNavigateBack: () -> Unit = {}
+    modifier: Modifier = Modifier
 )
 {
     Scaffold(
@@ -52,7 +51,7 @@ fun Entry(
             TopAppBar(
                 title = { Text(text = stringResource(R.string.add_data_title)) },
                 navigationIcon = {
-                    IconButton(onClick = { onNavigateBack() }) {
+                    IconButton(onClick = { navController.navigate("home") }) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                     }
                 }
