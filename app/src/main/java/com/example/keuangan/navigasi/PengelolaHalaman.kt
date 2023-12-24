@@ -7,8 +7,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.keuangan.ui.halaman.DestinasiEntry
-import com.example.keuangan.ui.halaman.DestinasiHome
 import com.example.keuangan.ui.halaman.DetailsDestination
 import com.example.keuangan.ui.halaman.Entry
 import com.example.keuangan.ui.halaman.Home
@@ -31,23 +29,20 @@ fun HostNavigasi(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ){
+    val navController = rememberNavController()
+
     NavHost(
         navController = navController,
-        startDestination = DestinasiHome.route,
+        startDestination = "home",
     ){
          //Destinasi Home
-        composable(DestinasiHome.route){
-            Home(
-                navigateToItemEntry = {navController.navigate(DestinasiEntry.route)},
-                onDetailClick = {
-                    navController.navigate("${DetailsDestination.route}/$it")
-                }
-                )
+        composable("home"){
+            Home(navController = navController)
         }
 
         //Destinasi Entry
-//        composable(DestinasiEntry.route){
-//            Entry(navigateBack = {navController.popBackStack()})
-//        }
+        composable("entry"){
+            Entry(navController = navController)
+        }
     }
 }

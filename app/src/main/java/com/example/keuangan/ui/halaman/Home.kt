@@ -14,31 +14,23 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.keuangan.R
 import com.example.keuangan.data.DataSource
 import com.example.keuangan.data.Pemasukan
 import com.example.keuangan.data.Pengeluaran
-import com.example.keuangan.navigasi.DestinasiNavigasi
-import com.example.keuangan.ui.theme.KeuanganTheme
 
 enum class HomeTabs { Pemasukan, Pengeluaran }
-
-object DestinasiHome : DestinasiNavigasi {
-    override val route = "home"
-    override val titleRes = R.string.app_name
-}
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
-    navigateToItemEntry:()-> Unit,
+    navController: NavHostController,
     modifier: Modifier = Modifier,
-    onDetailClick:(Int) -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -49,7 +41,7 @@ fun Home(
             },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = navigateToItemEntry,
+                onClick = { navController.navigate("entry") },
                 shape = MaterialTheme.shapes.medium,
                 modifier = Modifier.padding(16.dp)
             ) {
@@ -60,13 +52,10 @@ fun Home(
             }
         },
     ) { innerPadding ->
-        var selectedTab by rememberSaveable { mutableStateOf(HomeTabs.Pemasukan) }
         BodyHome(
-            selectedTab = selectedTab,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
-        onKeuanganClick = onDetailClick
         )
 
 
@@ -75,9 +64,7 @@ fun Home(
 
 @Composable
 fun BodyHome(
-    selectedTab: HomeTabs,
     modifier: Modifier = Modifier,
-    onKeuanganClick: (Int) -> Unit = {}
 ) {
     var selectedTab by rememberSaveable { mutableStateOf(HomeTabs.Pemasukan) }
 
@@ -165,12 +152,12 @@ fun PengeluaranItem(pengeluaran: Pengeluaran) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewHome() {
-    KeuanganTheme {
-        Home(
-            navigateToItemEntry =  {}
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewHome() {
+//    KeuanganTheme {
+//        Home(
+//            navigateToItemEntry =  {}
+//        )
+//    }
+//}
