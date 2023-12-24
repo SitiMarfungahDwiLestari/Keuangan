@@ -31,10 +31,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.keuangan.R
+import com.example.keuangan.navigasi.DestinasiNavigasi
 import com.example.keuangan.ui.theme.KeuanganTheme
+
 
 enum class EntryType{Pemasukan, Pengeluaran}
 
+object DestinasiEntry: DestinasiNavigasi {
+    override val route = "item_entry"
+    override val titleRes = R.string.entity_data
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Entry(

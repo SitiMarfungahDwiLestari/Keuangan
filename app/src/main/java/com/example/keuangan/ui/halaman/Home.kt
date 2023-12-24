@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,18 +32,21 @@ object DestinasiHome : DestinasiNavigasi {
     override val titleRes = R.string.app_name
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Home(
+    navigateToItemEntry:()-> Unit,
     modifier: Modifier = Modifier,
-    navigateToItemEntry:()-> Unit
+    onDetailClick:(Int) -> Unit = {},
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = stringResource(DestinasiHome.titleRes),
-            )
-        },
+                title = { Text(text = "Home") },
+
+                )
+            },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = navigateToItemEntry,
@@ -51,21 +55,30 @@ fun Home(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = null
+                    contentDescription = stringResource(R.string.entity_data)
                 )
             }
         },
     ) { innerPadding ->
         var selectedTab by rememberSaveable { mutableStateOf(HomeTabs.Pemasukan) }
-        BodyHome(selectedTab = selectedTab,
+        BodyHome(
+            selectedTab = selectedTab,
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize())
+                .fillMaxSize(),
+        onKeuanganClick = onDetailClick
+        )
+
+
     }
 }
 
 @Composable
-fun BodyHome(selectedTab: HomeTabs, modifier: Modifier = Modifier) {
+fun BodyHome(
+    selectedTab: HomeTabs,
+    modifier: Modifier = Modifier,
+    onKeuanganClick: (Int) -> Unit = {}
+) {
     var selectedTab by rememberSaveable { mutableStateOf(HomeTabs.Pemasukan) }
 
 
@@ -156,8 +169,8 @@ fun PengeluaranItem(pengeluaran: Pengeluaran) {
 @Composable
 fun PreviewHome() {
     KeuanganTheme {
-        Home {
-
-        }
+        Home(
+            navigateToItemEntry =  {}
+        )
     }
 }

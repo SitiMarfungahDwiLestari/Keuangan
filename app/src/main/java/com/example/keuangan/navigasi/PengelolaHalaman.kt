@@ -7,7 +7,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.keuangan.ui.halaman.DestinasiEntry
 import com.example.keuangan.ui.halaman.DestinasiHome
+import com.example.keuangan.ui.halaman.DetailsDestination
+import com.example.keuangan.ui.halaman.Entry
 import com.example.keuangan.ui.halaman.Home
 
 //Inisiasi Navigasi
@@ -32,15 +35,15 @@ fun HostNavigasi(
         navController = navController,
         startDestination = DestinasiHome.route,
     ){
-        // Destinasi Home
-        //composable(DestinasiHome.route){
-           // Home(
-                //navigateToItemEntry = {navController.navigate(DestinasiEntry.route)},
-                //onDetailClick = {
-//                    navController.navigate("${DetailsDestination.route}/$it")
-//                }
-//                )
-//        }
+         //Destinasi Home
+        composable(DestinasiHome.route){
+            Home(
+                navigateToItemEntry = {navController.navigate(DestinasiEntry.route)},
+                onDetailClick = {
+                    navController.navigate("${DetailsDestination.route}/$it")
+                }
+                )
+        }
 
         //Destinasi Entry
 //        composable(DestinasiEntry.route){
