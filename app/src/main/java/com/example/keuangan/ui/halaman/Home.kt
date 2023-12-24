@@ -67,6 +67,10 @@ fun BodyHome(
         modifier = modifier
             .padding(16.dp),
     ) {
+        Text(stringResource(R.string.History))
+
+        Spacer(modifier = Modifier.width(16.dp))
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
