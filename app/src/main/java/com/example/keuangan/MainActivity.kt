@@ -10,7 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.keuangan.navigasi.AplikasiKeuangan
+import com.example.keuangan.navigasi.DestinasiNavigasi
+import com.example.keuangan.ui.halaman.Home
 import com.example.keuangan.ui.theme.KeuanganTheme
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Tasya")
+                    AplikasiKeuangan()
                 }
             }
         }
