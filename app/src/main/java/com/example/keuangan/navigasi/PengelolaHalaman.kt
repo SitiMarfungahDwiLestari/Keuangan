@@ -33,13 +33,14 @@ fun HostNavigasi(
         startDestination = DestinasiHome.route,
     ){
         // Destinasi Home
-        composable(DestinasiHome.route){
-            Home(navigateToItemEntry = {navController.navigate(DestinasiEntry.route)},
-                onDetailClick = {
-                    navController.navigate("${DetailsDestination.route}/$it")
-                }
-                )
-        }
+        //composable(DestinasiHome.route){
+           // Home(
+                //navigateToItemEntry = {navController.navigate(DestinasiEntry.route)},
+                //onDetailClick = {
+//                    navController.navigate("${DetailsDestination.route}/$it")
+//                }
+//                )
+//        }
 
         //Destinasi Entry
 //        composable(DestinasiEntry.route){
