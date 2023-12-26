@@ -63,6 +63,9 @@ fun BodyHome(
     modifier: Modifier = Modifier,
 ) {
     var selectedTab by rememberSaveable { mutableStateOf(HomeTabs.Pemasukan) }
+    var showDialog by remember { mutableStateOf(false) }
+    var selectedItemToDelete by remember { mutableStateOf<Pemasukan?>(null) }
+
     Column(
         modifier = modifier
             .padding(16.dp),
@@ -96,17 +99,74 @@ fun BodyHome(
             Text(text = "Pengeluaran")
         }
         when (selectedTab) {
-            HomeTabs.Pemasukan -> PemasukanList()
+            HomeTabs.Pemasukan -> PemasukanList(
+                showDialog = showDialog,
+                onDeleteClick = { pemasukan ->
+                    selectedItemToDelete = pemasukan
+                    showDialog = true
+                },
+                onDismissDialog = {
+                    showDialog = false
+                    selectedItemToDelete = null
+                }
+            )
             HomeTabs.Pengeluaran -> PengeluaranList()
         }
     }
+    if (selectedItemToDelete != null) {
+        AlertDialog(
+            onDismissRequest = {
+                showDialog = false
+                selectedItemToDelete = null
+            },
+            title = {
+                Text("Konfirmasi")
+            },
+            text = {
+                Text("Apakah Anda yakin ingin menghapus data ini?")
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        selectedItemToDelete?.let {
+                            showDialog = false
+                            selectedItemToDelete = null
+                            onDeleteClick(it)
+                        }
+                    }
+                ) {
+                    Text("Ya")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        showDialog = false
+                        selectedItemToDelete = null
+                    }
+                ) {
+                    Text("Tidak")
+                }
+            }
+        )
+    }
 }
 
+fun onDeleteClick(it: Pemasukan) {
+    DataSource.pemasukanList.remove(it)
+
+}
+
+
 @Composable
-fun PemasukanList() {
+fun PemasukanList(showDialog: Boolean, onDeleteClick: (Pemasukan) -> Unit, onDismissDialog: () -> Unit) {
     LazyColumn {
         items(DataSource.pemasukanList) { pemasukan ->
-            PemasukanItem(pemasukan = pemasukan)
+            PemasukanItem(
+                pemasukan = pemasukan,
+                showDialog = showDialog,
+                onDeleteClick = onDeleteClick
+            )
         }
     }
 }
@@ -121,17 +181,49 @@ fun PengeluaranList() {
 }
 
 @Composable
-fun PemasukanItem(pemasukan: Pemasukan) {
+fun PemasukanItem(pemasukan: Pemasukan,showDialog: Boolean, onDeleteClick: (Pemasukan) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { /* Handle item click if needed */ }
+            .clickable { onDeleteClick(pemasukan)}
             .padding(16.dp)
     ) {
         Text("Tanggal: ${pemasukan.tanggal}")
         Text("Nominal: ${pemasukan.nominal}")
         Text("Kategori: ${pemasukan.kategori}")
         Icon(imageVector = Icons.Default.ThumbUp, contentDescription = null)
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = {
+                    // Add logic for onDismissRequest if needed
+                },
+                title = {
+                    Text("Konfirmasi")
+                },
+                text = {
+                    Text("Apakah Anda yakin ingin menghapus data ini?")
+                },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            onDeleteClick(pemasukan)
+                        }
+                    ) {
+                        Text("Ya")
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            // Add logic for dismissButton if needed
+                        }
+                    ) {
+                        Text("Tidak")
+                    }
+                }
+            )
+        }
+
     }
 }
 
