@@ -1,5 +1,6 @@
 package com.example.keuangan.ui.halaman
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -24,6 +27,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +45,9 @@ import com.example.keuangan.nav.Screens
 import com.example.keuangan.ui.theme.KeuanganTheme
 import com.example.keuangan.util.PengeluaranViewModel
 import com.example.keuangan.util.SharedViewModel
+import com.example.keuangan.util.pemasukan
+import androidx.compose.ui.platform.LocalContext
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,6 +80,7 @@ fun Home(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
+            sharedViewModel = SharedViewModel(),
            )
     }
 }
@@ -76,7 +88,21 @@ fun Home(
 @Composable
 fun BodyHome(
     modifier: Modifier,
-    ) {
+    sharedViewModel: SharedViewModel
+
+) {
+    var dataList by remember { mutableStateOf<List<pemasukan>>(emptyList()) }
+    val context = LocalContext.current
+
+
+    DisposableEffect(Unit) {
+        sharedViewModel.readAllData(context) { newDataList ->
+            dataList = newDataList
+            Log.d("GetDataScreen", "DataList size: ${dataList.size}")
+        }
+        onDispose { }
+    }
+
     Column(
         modifier = Modifier
             .padding(start = 20.dp, end = 20.dp, top = 80.dp)
@@ -121,6 +147,16 @@ fun BodyHome(
         }
 
         Text(stringResource(R.string.History))
+
+
+        LazyColumn {
+            items(dataList) { data ->
+                Text(
+                    text = "ID: ${data.id}, Tanggal: ${data.tanggal}, Nominal: ${data.nominal}, Kategori: ${data.kategori}",
+                    modifier = Modifier.padding(4.dp)
+                )
+            }
+        }
     }
 }
 

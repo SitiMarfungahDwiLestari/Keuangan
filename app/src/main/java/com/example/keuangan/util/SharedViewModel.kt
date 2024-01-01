@@ -72,4 +72,36 @@ class SharedViewModel: ViewModel() {
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
     }
+
+
+    fun readAllData(context: Context, onDataReceived: (List<pemasukan>) -> Unit) =
+        CoroutineScope(Dispatchers.IO).launch {
+            val fireStoreRef = Firebase.firestore.collection("pemasukan")
+
+            try {
+                fireStoreRef.get()
+                    .addOnSuccessListener { result ->
+                        val dataList = mutableListOf<pemasukan>()
+
+                        for (document in result) {
+                            val id = document.id
+                            val tanggal = document.getString("tanggal") ?: ""
+                            val nominal = document.getLong("nominal")?.toInt() ?: 0
+                            val kategori = document.getString("kategori") ?: ""
+
+                            val pemasukan = pemasukan(id, tanggal, nominal, kategori)
+                            dataList.add(pemasukan)
+                        }
+
+                        onDataReceived(dataList)
+                    }
+                    .addOnFailureListener { exception ->
+                        Toast.makeText(context, "Error reading data: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } catch (e: Exception) {
+                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
 }
