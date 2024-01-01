@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "980354940574",
+    "project_id": "keuangan-2326d",
+    "storage_bucket": "keuangan-2326d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980354940574:android:9f5e844a409647f2e2058f",
+        "android_client_info": {
+          "package_name": "com.example.keuangan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOa4Ny4HNaUe7LquRt5cwP7H1ExyLGjyQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
