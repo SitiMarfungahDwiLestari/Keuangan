@@ -16,6 +16,7 @@ import com.example.keuangan.util.PengeluaranViewModel
 import com.example.keuangan.util.SharedViewModel
 
 
+
 class MainActivity : ComponentActivity() {
 
     private lateinit var navController: NavHostController
