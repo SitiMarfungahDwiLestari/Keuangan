@@ -14,6 +14,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,23 +25,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.keuangan.ui.theme.KeuanganTheme
+import com.example.keuangan.util.PengeluaranViewModel
 import com.example.keuangan.util.SharedViewModel
 import com.example.keuangan.util.pemasukan
+import com.example.keuangan.util.pengeluaran
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddDataScreen(
     navController: NavController,
-    sharedViewModel: SharedViewModel
+    sharedViewModel: SharedViewModel,
+    pengeluaranViewModel: PengeluaranViewModel
 ){
     var id: String by remember { mutableStateOf("") }
     var tanggal: String by remember { mutableStateOf("") }
     var nominal: String by remember { mutableStateOf("") }
     var kategori: String by remember { mutableStateOf("") }
+    var deskripsi by remember { mutableStateOf("") }
     var nominalInt: Int by remember { mutableStateOf(0) }
+    var isPemasukanSelected by remember { mutableStateOf(true) } // Defaultnya Pemasukan
 
     val context = LocalContext.current
 
@@ -62,13 +71,34 @@ fun AddDataScreen(
         // add data Layout
         Column(
             modifier = Modifier
-                .padding(start = 60.dp, end = 60.dp, bottom = 50.dp)
+                .padding(start = 50.dp, end = 50.dp, bottom = 50.dp)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Row {
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                RadioButton(
+                    selected = isPemasukanSelected,
+                    onClick = {
+                        isPemasukanSelected = true
+                    }
+                )
+                Text(text = "Pemasukan", modifier = Modifier.padding(start = 8.dp))
 
+                // RadioButton untuk Pengeluaran
+                RadioButton(
+                    selected = !isPemasukanSelected,
+                    onClick = {
+                        isPemasukanSelected = false
+                    }
+                )
+                Text(text = "Pengeluaran", modifier = Modifier.padding(start = 8.dp))
             }
             // userID
             OutlinedTextField(
@@ -93,17 +123,21 @@ fun AddDataScreen(
                 }
             )
             // Profession
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = kategori,
-                onValueChange = {
-                    kategori = it
-                },
-                label = {
-                    Text(text = "Kategori")
-                }
-            )
-            // Age
+            if (isPemasukanSelected) {
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = kategori,
+                    onValueChange = { kategori = it },
+                    label = { Text(text = "Kategori") }
+                )
+            } else {
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = deskripsi,
+                    onValueChange = { deskripsi = it },
+                    label = { Text(text = "Deskripsi") }
+                )
+            }
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = nominal,
@@ -124,18 +158,38 @@ fun AddDataScreen(
                     .padding(top = 50.dp)
                     .fillMaxWidth(),
                 onClick = {
-                    val pemasukan = pemasukan(
-                        id = id,
-                        tanggal = tanggal,
-                        kategori= kategori,
-                        nominal = nominalInt
-                    )
-
-                    sharedViewModel.saveData(pemasukan = pemasukan, context = context)
+                    if (isPemasukanSelected) {
+                        val pemasukan = pemasukan(
+                            id = id,
+                            tanggal = tanggal,
+                            kategori = kategori,
+                            nominal = nominalInt
+                        )
+                        sharedViewModel.saveData(pemasukan = pemasukan, context = context)
+                    } else {
+                        val pengeluaran = pengeluaran(
+                            id = id,
+                            tanggal = tanggal,
+                            deskripsi = deskripsi,
+                            nominal = nominalInt
+                        )
+                        pengeluaranViewModel.saveDataKeluar(pengeluaran = pengeluaran, context = context)
+                    }
                 }
             ) {
                 Text(text = "Save")
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewAddDataScreen() {
+    KeuanganTheme {
+        val navController = rememberNavController()
+        val sharedViewModel = SharedViewModel()
+        val pengeluaranViewModel = PengeluaranViewModel()
+        AddDataScreen(navController, sharedViewModel, pengeluaranViewModel)
     }
 }
