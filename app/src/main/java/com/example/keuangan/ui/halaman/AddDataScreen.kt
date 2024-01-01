@@ -183,13 +183,13 @@ fun AddDataScreen(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewAddDataScreen() {
-    KeuanganTheme {
-        val navController = rememberNavController()
-        val sharedViewModel = SharedViewModel()
-        val pengeluaranViewModel = PengeluaranViewModel()
-        AddDataScreen(navController, sharedViewModel, pengeluaranViewModel)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewAddDataScreen() {
+//    KeuanganTheme {
+//        val navController = rememberNavController()
+//        val sharedViewModel = SharedViewModel()
+//        val pengeluaranViewModel = PengeluaranViewModel()
+//        AddDataScreen(navController, sharedViewModel, pengeluaranViewModel)
+//    }
+//}
