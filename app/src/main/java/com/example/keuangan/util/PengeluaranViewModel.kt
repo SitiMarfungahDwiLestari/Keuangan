@@ -71,4 +71,32 @@ class PengeluaranViewModel: ViewModel() {
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
     }
+    fun readAllData(context: Context, onDataReceived: (List<pengeluaran>) -> Unit) =
+        CoroutineScope(Dispatchers.IO).launch {
+            val fireStoreRef = Firebase.firestore.collection("pengeluaran")
+
+            try {
+                fireStoreRef.get()
+                    .addOnSuccessListener { result ->
+                        val listdata = mutableListOf<pengeluaran>()
+
+                        for (document in result) {
+                            val id = document.id
+                            val tanggal = document.getString("tanggal") ?: ""
+                            val nominal = document.getLong("nominal")?.toInt() ?: 0
+                            val deskripsi = document.getString("deskripsi") ?: ""
+
+                            val pengeluaran = pengeluaran(id, tanggal, nominal, deskripsi)
+                            listdata.add(pengeluaran)
+                        }
+
+                        onDataReceived(listdata)
+                    }
+                    .addOnFailureListener { exception ->
+                        Toast.makeText(context, "Error reading data: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    }
+            } catch (e: Exception) {
+                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+            }
+        }
 }

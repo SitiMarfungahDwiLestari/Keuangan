@@ -35,7 +35,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -51,7 +50,7 @@ import com.example.keuangan.util.PengeluaranViewModel
 import com.example.keuangan.util.SharedViewModel
 import com.example.keuangan.util.pemasukan
 import androidx.compose.ui.platform.LocalContext
-
+import com.example.keuangan.util.pengeluaran
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -90,6 +89,7 @@ fun Home(
                 .padding(innerPadding)
                 .fillMaxSize(),
             sharedViewModel = SharedViewModel(),
+            pengeluaranViewModel = PengeluaranViewModel(),
             navController = navController
            )
     }
@@ -99,9 +99,12 @@ fun Home(
 fun BodyHome(
     modifier: Modifier,
     sharedViewModel: SharedViewModel,
+    pengeluaranViewModel: PengeluaranViewModel,
     navController: NavController
 ) {
     var dataList by remember { mutableStateOf<List<pemasukan>>(emptyList()) }
+    var listdata by remember { mutableStateOf<List<pengeluaran>>(emptyList()) }
+
     val context = LocalContext.current
 
 
@@ -109,6 +112,10 @@ fun BodyHome(
         sharedViewModel.readAllData(context) { newDataList ->
             dataList = newDataList
             Log.d("GetDataScreen", "DataList size: ${dataList.size}")
+        }
+        pengeluaranViewModel.readAllData(context) { newListData ->
+            listdata = newListData
+            Log.d("GetDataScreen", "DataList size: ${listdata.size}")
         }
         onDispose { }
     }
@@ -139,26 +146,43 @@ fun BodyHome(
                 .padding(8.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Button(onClick = {  }) {
+            Button(onClick = {
+                sharedViewModel.readAllData(context) { newDataList ->
+                    dataList = newDataList
+                    Log.d("GetDataScreen", "DataList size: ${dataList.size}")
+                }
+                pengeluaranViewModel.readAllData(context) { newListData ->
+                    listdata = newListData
+                    Log.d("GetDataScreen", "DataList size: ${listdata.size}")
+                }
+
+            }) {
                 Text(text = "Semua")
             }
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            Button(onClick = {  }) {
+            Button(onClick = {
+                sharedViewModel.readAllData(context) { newDataList ->
+                    dataList = newDataList
+                    Log.d("GetDataScreen", "DataList size: ${dataList.size}")
+                }
+            }) {
                 Text(text = "Pemasukan")
             }
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            Button(onClick = {  }) {
+            Button(onClick = {
+                pengeluaranViewModel.readAllData(context) { newListData ->
+                    listdata = newListData
+                    Log.d("GetDataScreen", "DataList size: ${listdata.size}")
+                }
+            }) {
                 Text(text = "Pengeluaran")
             }
         }
-
         Text(stringResource(R.string.History))
-
-
         LazyColumn {
             items(dataList) { data ->
                 Card(
@@ -195,55 +219,126 @@ fun BodyHome(
                     }
                 }
             }
+
+            items(listdata) { data ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .clickable { navController.navigate(route = Screens.GetDataScreen.route)  },
+                    shape = RoundedCornerShape(8.dp),
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        Text(
+                            text = "ID: ${data.id}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Tanggal: ${data.tanggal}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "Nominal: ${data.nominal}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "deskripsi: ${data.deskripsi}",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
+            }
         }
+
+
+
+
+
+
+
+//
+//
+//        LazyColumn {
+//            items(dataList) { data ->
+//                Card(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(8.dp)
+//                        .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
+//                    shape = RoundedCornerShape(8.dp),
+//                ) {
+//                    Column(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(16.dp)
+//                    ) {
+//                        Text(
+//                            text = "ID: ${data.id}",
+//                            style = MaterialTheme.typography.bodySmall
+//                        )
+//                        Spacer(modifier = Modifier.height(4.dp))
+//                        Text(
+//                            text = "Tanggal: ${data.tanggal}",
+//                            style = MaterialTheme.typography.bodySmall
+//                        )
+//                        Spacer(modifier = Modifier.height(4.dp))
+//                        Text(
+//                            text = "Nominal: ${data.nominal}",
+//                            style = MaterialTheme.typography.bodySmall
+//                        )
+//                        Spacer(modifier = Modifier.height(4.dp))
+//                        Text(
+//                            text = "Kategori: ${data.kategori}",
+//                            style = MaterialTheme.typography.bodySmall
+//                        )
+//                    }
+//                }
+//            }
+//            items(listdata) { data ->
+//                Card(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(8.dp)
+//                        .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
+//                    shape = RoundedCornerShape(8.dp),
+//                ) {
+//                    Column(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(16.dp)
+//                    ) {
+//                        Text(
+//                            text = "ID: ${data.id}",
+//                            style = MaterialTheme.typography.bodySmall
+//                        )
+//                        Spacer(modifier = Modifier.height(4.dp))
+//                        Text(
+//                            text = "Tanggal: ${data.tanggal}",
+//                            style = MaterialTheme.typography.bodySmall
+//                        )
+//                        Spacer(modifier = Modifier.height(4.dp))
+//                        Text(
+//                            text = "Nominal: ${data.nominal}",
+//                            style = MaterialTheme.typography.bodySmall
+//                        )
+//                        Spacer(modifier = Modifier.height(4.dp))
+//                        Text(
+//                            text = "deskripsi: ${data.deskripsi}",
+//                            style = MaterialTheme.typography.bodySmall
+//                        )
+//                    }
+//                }
+//            }
+//        }
     }
 }
-
-
-
-
-
-
-
-
-//    Column(
-//        modifier = Modifier
-//            .padding(start = 50.dp, end = 50.dp)
-//            .fillMaxSize(),
-//        verticalArrangement = Arrangement.Center,
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ) {
-//        // get user data Button
-//        Button(
-//            modifier = Modifier.fillMaxWidth(),
-//            onClick = {
-//                navController.navigate(route = Screens.GetDataScreen.route)
-//            }
-//        ) {
-//            Text(text = "Get All Data")
-//        }
-//
-//        // add user data Button
-//        OutlinedButton(
-//            modifier = Modifier.fillMaxWidth(),
-//            onClick = {
-//                navController.navigate(route = Screens.AddDataScreen.route)
-//            }
-//        ) {
-//            Text(text = "Add Pemasukan")
-//        }
-//
-//        OutlinedButton(
-//            modifier = Modifier.fillMaxWidth(),
-//            onClick = {
-//                navController.navigate(route = Screens.AddPengeluaran.route)
-//            }
-//        ) {
-//            Text(text = "Add Pengeluaran")
-//        }
-//    }
-//}
-
 
 @Preview(showBackground = true)
 @Composable

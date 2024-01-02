@@ -27,23 +27,28 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.keuangan.util.PengeluaranViewModel
 import com.example.keuangan.util.SharedViewModel
 import com.example.keuangan.util.pemasukan
+import com.example.keuangan.util.pengeluaran
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GetDataScreen(
     navController: NavController,
-    sharedViewModel: SharedViewModel
+    sharedViewModel: SharedViewModel,
+    pengeluaranViewModel: PengeluaranViewModel
 ){
     var id: String by remember { mutableStateOf("") }
     var tanggal: String by remember { mutableStateOf("") }
     var nominal: String by remember { mutableStateOf("") }
     var kategori: String by remember { mutableStateOf("") }
     var nominalInt: Int by remember { mutableStateOf(0) }
+    var deskripsi : String by remember { mutableStateOf("")
+    }
 
-    val context = LocalContext.current
+        val context = LocalContext.current
 
     // main Layout
     Column(modifier = Modifier.fillMaxSize()) {
@@ -98,6 +103,15 @@ fun GetDataScreen(
                             nominal = data.nominal.toString()
                             nominalInt = nominal.toInt()
                         }
+                        pengeluaranViewModel.retrieveDataKeluar(
+                            id = id,
+                            context = context
+                        ) { data ->
+                            tanggal = data.tanggal
+                            deskripsi = data.deskripsi
+                            nominal = data.nominal.toString()
+                            nominalInt = nominal.toInt()
+                        }
                     }
                 ) {
                     Text(text = "Get Data")
@@ -123,6 +137,17 @@ fun GetDataScreen(
                 },
                 label = {
                     Text(text = "Kategori")
+                }
+            )
+            // Profession
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = deskripsi,
+                onValueChange = {
+                    deskripsi = it
+                },
+                label = {
+                    Text(text = "deskripsi")
                 }
             )
             // Age
@@ -152,7 +177,13 @@ fun GetDataScreen(
                         kategori = kategori,
                         nominal = nominalInt
                     )
-
+                    val pengeluaran = pengeluaran(
+                        id = id,
+                        tanggal = tanggal,
+                        deskripsi = deskripsi,
+                        nominal = nominalInt
+                    )
+                    pengeluaranViewModel.saveDataKeluar(pengeluaran = pengeluaran, context = context)
                     sharedViewModel.saveData(pemasukan = pemasukan, context = context)
                 }
             ) {
@@ -169,7 +200,13 @@ fun GetDataScreen(
                         context = context,
                         navController = navController
                     )
-                }
+
+                        pengeluaranViewModel.deleteDataKeluar(
+                        id = id,
+                context = context,
+                navController = navController
+                        )}
+
             ) {
                 Text(text = "Delete")
             }

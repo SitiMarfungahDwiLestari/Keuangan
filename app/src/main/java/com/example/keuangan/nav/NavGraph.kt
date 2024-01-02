@@ -36,7 +36,8 @@ fun NavGraph(
         ) {
             GetDataScreen(
                 navController = navController,
-                sharedViewModel = sharedViewModel
+                sharedViewModel = sharedViewModel,
+                pengeluaranViewModel= pengeluaranViewModel
             )
         }
         // add data screen
