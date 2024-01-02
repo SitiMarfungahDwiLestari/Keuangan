@@ -51,6 +51,9 @@ import com.example.keuangan.util.PengeluaranViewModel
 import com.example.keuangan.util.SharedViewModel
 import com.example.keuangan.util.pemasukan
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import com.example.keuangan.util.pengeluaran
 
 
@@ -213,8 +216,16 @@ fun BodyHome(
             }
         }
 
+        item{
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
         item {
-            Text(stringResource(R.string.History))
+            Text(stringResource(R.string.History),
+                style = MaterialTheme.typography.bodyLarge
+                .copy(
+                    fontSize = 20.sp,
+                ))
         }
 
         items(dataList) { data ->
@@ -225,30 +236,56 @@ fun BodyHome(
                     .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
                 shape = RoundedCornerShape(8.dp),
             ) {
-                Column(
+                Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+
+                    horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    Text(
-                        text = "ID: ${data.id}",
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Tanggal: ${data.tanggal}",
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Nominal: ${data.nominalpemasukan}",
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Kategori: ${data.kategori}",
-                        style = MaterialTheme.typography.bodySmall
-                    )
+
+                    Box {
+                        Icon(
+                            painter = painterResource(id = R.drawable.pemasukan),
+                            contentDescription = "pemasukan",
+                            tint = Color.Green
+                        )
+                    }
+
+
+                    Spacer(modifier = Modifier.padding(8.dp))
+
+                    Box (
+                        modifier = Modifier.width(150.dp)
+                    ){
+                        Text(
+                            text = "Rp. ${data.nominalpemasukan}",
+                            style = MaterialTheme.typography.bodyLarge
+                                .copy(
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "${data.tanggal}",
+                            style = MaterialTheme.typography.bodySmall
+                                .copy(fontSize = 10.sp),
+                        )
+
+                        Text(
+                            text = "${data.kategori}",
+                            style = MaterialTheme.typography.bodyMedium
+                                .copy(fontSize = 16.sp)
+                        )
+                    }
                 }
             }
         }
@@ -261,30 +298,56 @@ fun BodyHome(
                     .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
                 shape = RoundedCornerShape(8.dp),
             ) {
-                Column(
+                Row(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+
+                    horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    Text(
-                        text = "ID: ${data.id}",
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Tanggal: ${data.tanggal}",
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "Nominal: ${data.nominalpengeluaran}",
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = "deskripsi: ${data.deskripsi}",
-                        style = MaterialTheme.typography.bodySmall
-                    )
+
+                    Box {
+                        Icon(
+                            painter = painterResource(id = R.drawable.pengeluaran),
+                            contentDescription = "pengeluaran",
+                            tint = Color.Red
+                        )
+                    }
+
+
+                    Spacer(modifier = Modifier.padding(8.dp))
+
+                    Box (
+                        modifier = Modifier.width(150.dp)
+                    ){
+                        Text(
+                            text = "Rp. ${data.nominalpengeluaran}",
+                            style = MaterialTheme.typography.bodyLarge
+                                        .copy(
+                                            fontSize = 20.sp,
+                                            fontWeight = FontWeight.Bold
+                                )
+
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "${data.tanggal}",
+                            style = MaterialTheme.typography.bodySmall
+                                .copy(fontSize = 10.sp),
+                            )
+
+                        Text(
+                            text = "${data.deskripsi}",
+                            style = MaterialTheme.typography.bodyMedium
+                                .copy(fontSize = 16.sp)
+                        )
+                    }
                 }
             }
         }
@@ -299,3 +362,30 @@ fun PreviewHome() {
         Home(navController)
     }
 }
+
+//
+//Column(
+//modifier = Modifier
+//.fillMaxWidth()
+//.padding(16.dp)
+//) {
+//    Text(
+//        text = "ID: ${data.id}",
+//        style = MaterialTheme.typography.bodySmall
+//    )
+//    Spacer(modifier = Modifier.height(4.dp))
+//    Text(
+//        text = "Tanggal: ${data.tanggal}",
+//        style = MaterialTheme.typography.bodySmall
+//    )
+//    Spacer(modifier = Modifier.height(4.dp))
+//    Text(
+//        text = "Nominal: ${data.nominalpengeluaran}",
+//        style = MaterialTheme.typography.bodySmall
+//    )
+//    Spacer(modifier = Modifier.height(4.dp))
+//    Text(
+//        text = "deskripsi: ${data.deskripsi}",
+//        style = MaterialTheme.typography.bodySmall
+//    )
+//}
