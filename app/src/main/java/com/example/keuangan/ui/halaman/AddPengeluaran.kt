@@ -125,7 +125,7 @@ fun AddPengeluaran(
                         id = id,
                         tanggal = tanggal,
                         deskripsi = deskripsi,
-                        nominal = nominalInt
+                        nominalpengeluaran = nominalInt
                     )
 
                     pengeluaranViewModel.saveDataKeluar(pengeluaran = pengeluaran, context = context)

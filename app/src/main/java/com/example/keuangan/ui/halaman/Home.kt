@@ -35,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -104,6 +105,8 @@ fun BodyHome(
 ) {
     var dataList by remember { mutableStateOf<List<pemasukan>>(emptyList()) }
     var listdata by remember { mutableStateOf<List<pengeluaran>>(emptyList()) }
+    var saldo by remember { mutableStateOf(0) }
+
 
     val context = LocalContext.current
 
@@ -117,6 +120,9 @@ fun BodyHome(
             listdata = newListData
             Log.d("GetDataScreen", "DataList size: ${listdata.size}")
         }
+
+        // Hitung saldo
+        saldo = dataList.sumBy { it.nominalpemasukan } - listdata.sumBy { it.nominalpengeluaran }
         onDispose { }
     }
 
@@ -134,8 +140,17 @@ fun BodyHome(
                     color = Color.Gray,
                     shape = RoundedCornerShape(size = 16.dp)
                 )
+        ) {Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Isi kotak di sini
+            Text("Saldo Terkini")
+            Spacer(modifier = Modifier.height(8.dp))
+            Text("Rp $saldo")
+        }
         }
 
 //        Spacer(modifier = Modifier.width(8.dp))
@@ -208,7 +223,7 @@ fun BodyHome(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "Nominal: ${data.nominal}",
+                            text = "Nominal: ${data.nominalpemasukan}",
                             style = MaterialTheme.typography.bodySmall
                         )
                         Spacer(modifier = Modifier.height(4.dp))
@@ -244,7 +259,7 @@ fun BodyHome(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "Nominal: ${data.nominal}",
+                            text = "Nominal: ${data.nominalpengeluaran}",
                             style = MaterialTheme.typography.bodySmall
                         )
                         Spacer(modifier = Modifier.height(4.dp))

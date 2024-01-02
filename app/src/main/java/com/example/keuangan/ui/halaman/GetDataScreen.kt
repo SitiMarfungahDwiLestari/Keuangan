@@ -100,7 +100,7 @@ fun GetDataScreen(
                         ) { data ->
                             tanggal = data.tanggal
                             kategori = data.kategori
-                            nominal = data.nominal.toString()
+                            nominal = data.nominalpemasukan.toString()
                             nominalInt = nominal.toInt()
                         }
                         pengeluaranViewModel.retrieveDataKeluar(
@@ -109,7 +109,7 @@ fun GetDataScreen(
                         ) { data ->
                             tanggal = data.tanggal
                             deskripsi = data.deskripsi
-                            nominal = data.nominal.toString()
+                            nominal = data.nominalpengeluaran.toString()
                             nominalInt = nominal.toInt()
                         }
                     }
@@ -175,13 +175,13 @@ fun GetDataScreen(
                         id = id,
                         tanggal = tanggal,
                         kategori = kategori,
-                        nominal = nominalInt
+                        nominalpemasukan = nominalInt
                     )
                     val pengeluaran = pengeluaran(
                         id = id,
                         tanggal = tanggal,
                         deskripsi = deskripsi,
-                        nominal = nominalInt
+                        nominalpengeluaran = nominalInt
                     )
                     pengeluaranViewModel.saveDataKeluar(pengeluaran = pengeluaran, context = context)
                     sharedViewModel.saveData(pemasukan = pemasukan, context = context)

@@ -163,7 +163,7 @@ fun AddDataScreen(
                             id = id,
                             tanggal = tanggal,
                             kategori = kategori,
-                            nominal = nominalInt
+                            nominalpemasukan = nominalInt
                         )
                         sharedViewModel.saveData(pemasukan = pemasukan, context = context)
                     } else {
@@ -171,7 +171,7 @@ fun AddDataScreen(
                             id = id,
                             tanggal = tanggal,
                             deskripsi = deskripsi,
-                            nominal = nominalInt
+                            nominalpengeluaran  = nominalInt
                         )
                         pengeluaranViewModel.saveDataKeluar(pengeluaran = pengeluaran, context = context)
                     }
