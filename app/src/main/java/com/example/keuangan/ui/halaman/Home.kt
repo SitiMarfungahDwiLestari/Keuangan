@@ -60,14 +60,25 @@ fun Home(
     navController: NavController,
     modifier: Modifier = Modifier,
     ){
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+//    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold (
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+//        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
 
         topBar = {
             TopAppBar(
-                title = { Text(text = "Home") },
+                title = {
+                    Text(
+                        text = "Home",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 16.dp))
+                        },
+//                scrollBehavior = scrollBehavior,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp)
+
             )
         },
         floatingActionButton = {
@@ -98,7 +109,7 @@ fun Home(
 
 @Composable
 fun BodyHome(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     sharedViewModel: SharedViewModel,
     pengeluaranViewModel: PengeluaranViewModel,
     navController: NavController
@@ -126,232 +137,157 @@ fun BodyHome(
         onDispose { }
     }
 
-    Column(
+    LazyColumn(
         modifier = Modifier
-            .padding(start = 20.dp, end = 20.dp, top = 80.dp)
+            .padding(start = 20.dp, end = 20.dp, top = 65.dp)
             .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .height(150.dp)
-                .fillMaxWidth()
-                .background(
-                    color = Color.Gray,
-                    shape = RoundedCornerShape(size = 16.dp)
-                )
-        ) {Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Saldo Terkini")
-            Spacer(modifier = Modifier.height(8.dp))
-            Text("Rp $saldo")
-        }
-        }
-
-//        Spacer(modifier = Modifier.width(8.dp))
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Button(onClick = {
-                sharedViewModel.readAllData(context) { newDataList ->
-                    dataList = newDataList
-                    Log.d("GetDataScreen", "DataList size: ${dataList.size}")
+        item {
+            Box(
+                modifier = Modifier
+                    .height(150.dp)
+                    .fillMaxWidth()
+                    .background(
+                        color = Color.Gray,
+                        shape = RoundedCornerShape(size = 16.dp)
+                    )
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text("Saldo Terkini")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("Rp $saldo")
                 }
-                pengeluaranViewModel.readAllData(context) { newListData ->
-                    listdata = newListData
-                    Log.d("GetDataScreen", "DataList size: ${listdata.size}")
-                }
-
-            }) {
-                Text(text = "Semua")
-            }
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Button(onClick = {
-                sharedViewModel.readAllData(context) { newDataList ->
-                    dataList = newDataList
-                    Log.d("GetDataScreen", "DataList size: ${dataList.size}")
-                }
-            }) {
-                Text(text = "Pemasukan")
-            }
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Button(onClick = {
-                pengeluaranViewModel.readAllData(context) { newListData ->
-                    listdata = newListData
-                    Log.d("GetDataScreen", "DataList size: ${listdata.size}")
-                }
-            }) {
-                Text(text = "Pengeluaran")
             }
         }
-        Text(stringResource(R.string.History))
-        LazyColumn {
-            items(dataList) { data ->
-                Card(
+
+        item {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Button(onClick = {
+                    sharedViewModel.readAllData(context) { newDataList ->
+                        dataList = newDataList
+                        Log.d("GetDataScreen", "DataList size: ${dataList.size}")
+                    }
+                    pengeluaranViewModel.readAllData(context) { newListData ->
+                        listdata = newListData
+                        Log.d("GetDataScreen", "DataList size: ${listdata.size}")
+                    }
+
+                }) {
+                    Text(text = "Semua")
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Button(onClick = {
+                    sharedViewModel.readAllData(context) { newDataList ->
+                        dataList = newDataList
+                        Log.d("GetDataScreen", "DataList size: ${dataList.size}")
+                    }
+                }) {
+                    Text(text = "Pemasukan")
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Button(onClick = {
+                    pengeluaranViewModel.readAllData(context) { newListData ->
+                        listdata = newListData
+                        Log.d("GetDataScreen", "DataList size: ${listdata.size}")
+                    }
+                }) {
+                    Text(text = "Pengeluaran")
+                }
+            }
+        }
+
+        item {
+            Text(stringResource(R.string.History))
+        }
+
+        items(dataList) { data ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
+                shape = RoundedCornerShape(8.dp),
+            ) {
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp)
-                        .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
-                    shape = RoundedCornerShape(8.dp),
+                        .padding(16.dp)
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
-                        Text(
-                            text = "ID: ${data.id}",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "Tanggal: ${data.tanggal}",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "Nominal: ${data.nominalpemasukan}",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "Kategori: ${data.kategori}",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
-                }
-            }
-
-            items(listdata) { data ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                        .clickable { navController.navigate(route = Screens.GetDataScreen.route)  },
-                    shape = RoundedCornerShape(8.dp),
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
-                        Text(
-                            text = "ID: ${data.id}",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "Tanggal: ${data.tanggal}",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "Nominal: ${data.nominalpengeluaran}",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "deskripsi: ${data.deskripsi}",
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                    }
+                    Text(
+                        text = "ID: ${data.id}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Tanggal: ${data.tanggal}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Nominal: ${data.nominalpemasukan}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Kategori: ${data.kategori}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
             }
         }
 
-
-
-
-
-
-
-//
-//
-//        LazyColumn {
-//            items(dataList) { data ->
-//                Card(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(8.dp)
-//                        .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
-//                    shape = RoundedCornerShape(8.dp),
-//                ) {
-//                    Column(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(16.dp)
-//                    ) {
-//                        Text(
-//                            text = "ID: ${data.id}",
-//                            style = MaterialTheme.typography.bodySmall
-//                        )
-//                        Spacer(modifier = Modifier.height(4.dp))
-//                        Text(
-//                            text = "Tanggal: ${data.tanggal}",
-//                            style = MaterialTheme.typography.bodySmall
-//                        )
-//                        Spacer(modifier = Modifier.height(4.dp))
-//                        Text(
-//                            text = "Nominal: ${data.nominal}",
-//                            style = MaterialTheme.typography.bodySmall
-//                        )
-//                        Spacer(modifier = Modifier.height(4.dp))
-//                        Text(
-//                            text = "Kategori: ${data.kategori}",
-//                            style = MaterialTheme.typography.bodySmall
-//                        )
-//                    }
-//                }
-//            }
-//            items(listdata) { data ->
-//                Card(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(8.dp)
-//                        .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
-//                    shape = RoundedCornerShape(8.dp),
-//                ) {
-//                    Column(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(16.dp)
-//                    ) {
-//                        Text(
-//                            text = "ID: ${data.id}",
-//                            style = MaterialTheme.typography.bodySmall
-//                        )
-//                        Spacer(modifier = Modifier.height(4.dp))
-//                        Text(
-//                            text = "Tanggal: ${data.tanggal}",
-//                            style = MaterialTheme.typography.bodySmall
-//                        )
-//                        Spacer(modifier = Modifier.height(4.dp))
-//                        Text(
-//                            text = "Nominal: ${data.nominal}",
-//                            style = MaterialTheme.typography.bodySmall
-//                        )
-//                        Spacer(modifier = Modifier.height(4.dp))
-//                        Text(
-//                            text = "deskripsi: ${data.deskripsi}",
-//                            style = MaterialTheme.typography.bodySmall
-//                        )
-//                    }
-//                }
-//            }
-//        }
+        items(listdata) { data ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
+                shape = RoundedCornerShape(8.dp),
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = "ID: ${data.id}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Tanggal: ${data.tanggal}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Nominal: ${data.nominalpengeluaran}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "deskripsi: ${data.deskripsi}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+            }
+        }
     }
 }
 
