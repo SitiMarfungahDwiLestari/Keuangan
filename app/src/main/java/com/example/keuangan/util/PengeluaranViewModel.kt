@@ -83,10 +83,10 @@ class PengeluaranViewModel: ViewModel() {
                         for (document in result) {
                             val id = document.id
                             val tanggal = document.getString("tanggal") ?: ""
-                            val nominal = document.getLong("nominal")?.toInt() ?: 0
+                            val nominalpengeluaran = document.getLong("nominalpengeluaran")?.toInt() ?: 0
                             val deskripsi = document.getString("deskripsi") ?: ""
 
-                            val pengeluaran = pengeluaran(id, tanggal, nominal, deskripsi)
+                            val pengeluaran = pengeluaran(id, tanggal, nominalpengeluaran, deskripsi)
                             listdata.add(pengeluaran)
                         }
 

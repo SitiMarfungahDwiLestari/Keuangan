@@ -86,10 +86,10 @@ class SharedViewModel: ViewModel() {
                         for (document in result) {
                             val id = document.id
                             val tanggal = document.getString("tanggal") ?: ""
-                            val nominal = document.getLong("nominal")?.toInt() ?: 0
+                            val nominalpemasukan = document.getLong("nominalpemasukan")?.toInt() ?: 0
                             val kategori = document.getString("kategori") ?: ""
 
-                            val pemasukan = pemasukan(id, tanggal, nominal, kategori)
+                            val pemasukan = pemasukan(id, tanggal, nominalpemasukan, kategori)
                             dataList.add(pemasukan)
                         }
 

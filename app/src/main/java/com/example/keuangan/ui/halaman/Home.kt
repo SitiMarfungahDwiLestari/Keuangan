@@ -362,30 +362,3 @@ fun PreviewHome() {
         Home(navController)
     }
 }
-
-//
-//Column(
-//modifier = Modifier
-//.fillMaxWidth()
-//.padding(16.dp)
-//) {
-//    Text(
-//        text = "ID: ${data.id}",
-//        style = MaterialTheme.typography.bodySmall
-//    )
-//    Spacer(modifier = Modifier.height(4.dp))
-//    Text(
-//        text = "Tanggal: ${data.tanggal}",
-//        style = MaterialTheme.typography.bodySmall
-//    )
-//    Spacer(modifier = Modifier.height(4.dp))
-//    Text(
-//        text = "Nominal: ${data.nominalpengeluaran}",
-//        style = MaterialTheme.typography.bodySmall
-//    )
-//    Spacer(modifier = Modifier.height(4.dp))
-//    Text(
-//        text = "deskripsi: ${data.deskripsi}",
-//        style = MaterialTheme.typography.bodySmall
-//    )
-//}
