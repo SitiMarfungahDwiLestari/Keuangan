@@ -132,14 +132,14 @@ fun BodyHome(
 
     DisposableEffect(Unit) {
         sharedViewModel.readAllData(context) { newDataList ->
-            dataList = newDataList
+            dataList = newDataList.sortedByDescending { it.tanggal }
             searchResultDataList = newDataList.filter { it.kategori.contains(search, ignoreCase = true) }
-            Log.d("GetDataScreen", "DataList size: ${dataList.size}")
+            Log.d("GetDataScreen", "Sorted DataList: $dataList")
         }
         pengeluaranViewModel.readAllData(context) { newListData ->
-            listdata = newListData
+            listdata = newListData.sortedByDescending { it.tanggal }
             searchResultListData = newListData.filter { it.deskripsi.contains(search, ignoreCase = true) }
-            Log.d("GetDataScreen", "DataList size: ${listdata.size}")
+            Log.d("GetDataScreen", "Sorted DataList: $listdata")
         }
 
         // Hitung saldo
