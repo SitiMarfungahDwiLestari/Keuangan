@@ -5,7 +5,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.keuangan.data.Kategori
 import com.example.keuangan.ui.halaman.AddDataScreen
 import com.example.keuangan.ui.halaman.AddPengeluaran
 import com.example.keuangan.ui.halaman.GetDataScreen

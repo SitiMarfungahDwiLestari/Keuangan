@@ -52,7 +52,6 @@ fun AddDataScreen(
     var deskripsi by remember { mutableStateOf("") }
     var nominalInt: Int by remember { mutableStateOf(0) }
     var isPemasukanSelected by remember { mutableStateOf(true) } // Defaultnya Pemasukan,
-    var Kategori by remember { mutableStateOf("") }
 
 
     val context = LocalContext.current
@@ -129,8 +128,8 @@ fun AddDataScreen(
             // Profession
             if (isPemasukanSelected) { OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = deskripsi,
-                onValueChange = { deskripsi = it },
+                value = kategori,
+                onValueChange = { kategori = it },
                 label = { Text(text = "Kategori") })
             } else {
                 OutlinedTextField(
