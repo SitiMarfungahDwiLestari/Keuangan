@@ -1,9 +1,11 @@
 package com.example.keuangan.nav
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.keuangan.data.Kategori
 import com.example.keuangan.ui.halaman.AddDataScreen
 import com.example.keuangan.ui.halaman.AddPengeluaran
 import com.example.keuangan.ui.halaman.GetDataScreen
@@ -16,8 +18,9 @@ import com.example.keuangan.util.SharedViewModel
 fun NavGraph(
     navController: NavHostController,
     sharedViewModel: SharedViewModel,
-    pengeluaranViewModel: PengeluaranViewModel
-) {
+    pengeluaranViewModel: PengeluaranViewModel,
+
+    ) {
     NavHost(
         navController = navController,
         startDestination = Screens.Home.route
@@ -44,11 +47,12 @@ fun NavGraph(
         composable(
             route = Screens.AddDataScreen.route
         ) {
+            val context = LocalContext.current
             AddDataScreen(
                 navController = navController,
                 sharedViewModel = sharedViewModel,
                 pengeluaranViewModel = pengeluaranViewModel
-            )
+                )
         }
         //add Pengeluaran
         composable(

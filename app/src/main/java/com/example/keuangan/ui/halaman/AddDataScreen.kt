@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -41,7 +42,8 @@ import com.example.keuangan.util.pengeluaran
 fun AddDataScreen(
     navController: NavController,
     sharedViewModel: SharedViewModel,
-    pengeluaranViewModel: PengeluaranViewModel
+    pengeluaranViewModel: PengeluaranViewModel,
+
 ){
     var id: String by remember { mutableStateOf("") }
     var tanggal: String by remember { mutableStateOf("") }
@@ -49,7 +51,9 @@ fun AddDataScreen(
     var kategori: String by remember { mutableStateOf("") }
     var deskripsi by remember { mutableStateOf("") }
     var nominalInt: Int by remember { mutableStateOf(0) }
-    var isPemasukanSelected by remember { mutableStateOf(true) } // Defaultnya Pemasukan
+    var isPemasukanSelected by remember { mutableStateOf(true) } // Defaultnya Pemasukan,
+    var Kategori by remember { mutableStateOf("") }
+
 
     val context = LocalContext.current
 
@@ -123,13 +127,11 @@ fun AddDataScreen(
                 }
             )
             // Profession
-            if (isPemasukanSelected) {
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = kategori,
-                    onValueChange = { kategori = it },
-                    label = { Text(text = "Kategori") }
-                )
+            if (isPemasukanSelected) { OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = deskripsi,
+                onValueChange = { deskripsi = it },
+                label = { Text(text = "Kategori") })
             } else {
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),

@@ -54,6 +54,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.keuangan.data.Kategori
 import com.example.keuangan.util.pengeluaran
 
 
@@ -62,6 +63,7 @@ import com.example.keuangan.util.pengeluaran
 fun Home(
     navController: NavController,
     modifier: Modifier = Modifier,
+
     ){
 //    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
@@ -120,6 +122,9 @@ fun BodyHome(
     var dataList by remember { mutableStateOf<List<pemasukan>>(emptyList()) }
     var listdata by remember { mutableStateOf<List<pengeluaran>>(emptyList()) }
     var saldo by remember { mutableStateOf(0) }
+    var search by remember { mutableStateOf("") }
+    var searchResultDataList by remember { mutableStateOf<List<pemasukan>>(emptyList()) }
+    var searchResultListData by remember { mutableStateOf<List<pengeluaran>>(emptyList()) }
 
 
     val context = LocalContext.current
@@ -128,10 +133,12 @@ fun BodyHome(
     DisposableEffect(Unit) {
         sharedViewModel.readAllData(context) { newDataList ->
             dataList = newDataList
+            searchResultDataList = newDataList.filter { it.kategori.contains(search, ignoreCase = true) }
             Log.d("GetDataScreen", "DataList size: ${dataList.size}")
         }
         pengeluaranViewModel.readAllData(context) { newListData ->
             listdata = newListData
+            searchResultListData = newListData.filter { it.deskripsi.contains(search, ignoreCase = true) }
             Log.d("GetDataScreen", "DataList size: ${listdata.size}")
         }
 
@@ -217,7 +224,139 @@ fun BodyHome(
         }
 
         item{
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+        item {
+            // Tambahkan TextField untuk pencarian di sini
+            Search(
+                searchQuery = search,
+                onSearchQueryChanged = { newQuery ->
+                    search = newQuery
+                    // Implementasi pencarian di sini (filter dataList dan listdata berdasarkan newQuery)
+                    searchResultDataList = dataList.filter { it.kategori.contains(newQuery, ignoreCase = true) }
+                    searchResultListData = listdata.filter { it.deskripsi.contains(newQuery, ignoreCase = true) }
+                }
+            )
+        }
+        // Menampilkan hasil pencarian
+        items(if (search.isNotEmpty()) searchResultDataList else emptyList()) { data ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
+                shape = RoundedCornerShape(8.dp),
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
+
+                    Box {
+                        Icon(
+                            painter = painterResource(id = R.drawable.pemasukan),
+                            contentDescription = "pemasukan",
+                            tint = Color.Green
+                        )
+                    }
+                    Spacer(modifier = Modifier.padding(8.dp))
+
+                    Box (
+                        modifier = Modifier.width(150.dp)
+                    ){
+                        Text(
+                            text = "Rp. ${data.nominalpemasukan}",
+                            style = MaterialTheme.typography.bodyLarge
+                                .copy(
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "${data.tanggal}",
+                            style = MaterialTheme.typography.bodySmall
+                                .copy(fontSize = 10.sp),
+                        )
+
+                        Text(
+                            text = "${data.kategori}",
+                            style = MaterialTheme.typography.bodyMedium
+                                .copy(fontSize = 16.sp)
+                        )
+                    }
+                }
+            }
+        }
+        items(if (search.isNotEmpty()) searchResultListData else emptyList()) { data ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
+                shape = RoundedCornerShape(8.dp),
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
+
+                    Box {
+                        Icon(
+                            painter = painterResource(id = R.drawable.pengeluaran),
+                            contentDescription = "pengeluaran",
+                            tint = Color.Red
+                        )
+                    }
+
+
+                    Spacer(modifier = Modifier.padding(8.dp))
+
+                    Box(
+                        modifier = Modifier.width(150.dp)
+                    ) {
+                        Text(
+                            text = "Rp. ${data.nominalpengeluaran}",
+                            style = MaterialTheme.typography.bodyLarge
+                                .copy(
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+
+                        )
+                    }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "${data.tanggal}",
+                            style = MaterialTheme.typography.bodySmall
+                                .copy(fontSize = 10.sp),
+                        )
+
+                        Text(
+                            text = "${data.deskripsi}",
+                            style = MaterialTheme.typography.bodyMedium
+                                .copy(fontSize = 16.sp)
+                        )
+                    }
+                }
+            }
         }
 
         item {
@@ -227,7 +366,6 @@ fun BodyHome(
                     fontSize = 20.sp,
                 ))
         }
-
         items(dataList) { data ->
             Card(
                 modifier = Modifier
@@ -318,15 +456,15 @@ fun BodyHome(
 
                     Spacer(modifier = Modifier.padding(8.dp))
 
-                    Box (
+                    Box(
                         modifier = Modifier.width(150.dp)
-                    ){
+                    ) {
                         Text(
                             text = "Rp. ${data.nominalpengeluaran}",
                             style = MaterialTheme.typography.bodyLarge
-                                        .copy(
-                                            fontSize = 20.sp,
-                                            fontWeight = FontWeight.Bold
+                                .copy(
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
                                 )
 
                         )
@@ -340,7 +478,7 @@ fun BodyHome(
                             text = "${data.tanggal}",
                             style = MaterialTheme.typography.bodySmall
                                 .copy(fontSize = 10.sp),
-                            )
+                        )
 
                         Text(
                             text = "${data.deskripsi}",
@@ -353,6 +491,7 @@ fun BodyHome(
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
