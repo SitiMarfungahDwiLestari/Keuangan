@@ -31,6 +31,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -129,8 +130,8 @@ fun BodyHome(
 
     val context = LocalContext.current
 
-
-    DisposableEffect(Unit) {
+    // LaunchedEffect yang dijalankan setiap kali terjadi perubahan pada dataList atau listdata
+    LaunchedEffect(dataList, listdata) {
         sharedViewModel.readAllData(context) { newDataList ->
             dataList = newDataList.sortedByDescending { it.tanggal }
             searchResultDataList = newDataList.filter { it.kategori.contains(search, ignoreCase = true) }
@@ -144,7 +145,6 @@ fun BodyHome(
 
         // Hitung saldo
         saldo = dataList.sumBy { it.nominalpemasukan } - listdata.sumBy { it.nominalpengeluaran }
-        onDispose { }
     }
 
     LazyColumn(
