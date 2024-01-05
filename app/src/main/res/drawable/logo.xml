@@ -4,9 +4,8 @@
     <item android:drawable="@drawable/logoo" />
 
     <!-- Pressed state -->
-    <item android:state_pressed="true" android:drawable="@drawable/logoo" />
+    <item android:state_pressed="true" android:drawable="@drawable/logoo"/>
 
     <!-- Focused state -->
-    <item android:state_focused="true" android:drawable="@drawable/logoo" />
-
+    <item android:state_focused="true" android:drawable="@drawable/logoo"  />
 </selector>
