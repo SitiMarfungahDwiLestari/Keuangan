@@ -16,15 +16,15 @@ class PengeluaranViewModel: ViewModel() {
         pengeluaran: pengeluaran,
         context: Context
     ) = CoroutineScope(Dispatchers.IO).launch {
-        val fireStorePengeluaran = Firebase.firestore
-            .collection("pengeluaran")
-            .document(pengeluaran.id)
-        try{
-            fireStorePengeluaran.set(pengeluaran)
+        val fireStoreRef = Firebase.firestore.collection("pengeluaran").document()
+
+        try {
+            pengeluaran.id = fireStoreRef.id
+            fireStoreRef.set(pengeluaran)
                 .addOnSuccessListener {
                     Toast.makeText(context, "Successfully saved data", Toast.LENGTH_SHORT).show()
                 }
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
     }

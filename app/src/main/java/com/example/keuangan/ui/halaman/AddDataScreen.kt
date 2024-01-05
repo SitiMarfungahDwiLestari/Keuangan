@@ -1,5 +1,7 @@
 package com.example.keuangan.ui.halaman
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,8 +37,10 @@ import com.example.keuangan.util.PengeluaranViewModel
 import com.example.keuangan.util.SharedViewModel
 import com.example.keuangan.util.pemasukan
 import com.example.keuangan.util.pengeluaran
+import java.time.LocalDate
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddDataScreen(
@@ -52,7 +56,7 @@ fun AddDataScreen(
     var deskripsi by remember { mutableStateOf("") }
     var nominalInt: Int by remember { mutableStateOf(0) }
     var isPemasukanSelected by remember { mutableStateOf(true) } // Defaultnya Pemasukan,
-
+    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
 
     val context = LocalContext.current
 
@@ -110,6 +114,7 @@ fun AddDataScreen(
                 onValueChange = {
                     id = it
                 },
+                enabled = false,
                 label = {
                     Text(text = "id")
                 }
@@ -183,6 +188,7 @@ fun AddDataScreen(
         }
     }
 }
+
 
 //@Preview(showBackground = true)
 //@Composable

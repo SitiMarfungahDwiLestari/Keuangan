@@ -17,15 +17,15 @@ class SharedViewModel: ViewModel() {
         pemasukan: pemasukan,
         context: Context
     ) = CoroutineScope(Dispatchers.IO).launch {
-        val fireStoreRef = Firebase.firestore
-            .collection("pemasukan")
-            .document(pemasukan.id)
-        try{
+        val fireStoreRef = Firebase.firestore.collection("pemasukan").document()
+
+        try {
+            pemasukan.id = fireStoreRef.id
             fireStoreRef.set(pemasukan)
                 .addOnSuccessListener {
                     Toast.makeText(context, "Successfully saved data", Toast.LENGTH_SHORT).show()
                 }
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
         }
     }
