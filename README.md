@@ -1,7 +1,6 @@
-<h1>Final Project Pengembangan Aplikasi Mobile 2024</h1><br>
-<h2>Project Name</h2><br>
-Keuangan
-<br>
+<h1>Final Project Pengembangan Aplikasi Mobile 2024</h1>
+<h2>Project Name</h2>
+Keuangan<br>
 <h2>Project Description</h2><br>
 Aplikasi ini dibuat untuk membantu pengguna dalam melakukan pencatatan keuangan, baik uang masuk maupun uang keluar sehingga pengguna dapat dengan mudah memantau uang yang mereka miliki dari fitur saldo yang kami buat di dalam aplikasi ini. Yang mana aplikasi ini dikembangkan dengan menyimpan data di dalam Firebase Firestore. Fungsi lebih rinci dapat dilihat dalam use case diagram dibawah ini.<br>
 <h2>Usecase </h2><br>
