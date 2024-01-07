@@ -1,5 +1,7 @@
 package com.example.keuangan.nav
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -13,6 +15,7 @@ import com.example.keuangan.util.PengeluaranViewModel
 import com.example.keuangan.util.SharedViewModel
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavGraph(
     navController: NavHostController,
@@ -48,6 +51,7 @@ fun NavGraph(
         ) {
             val context = LocalContext.current
             AddDataScreen(
+                context = context,
                 navController = navController,
                 sharedViewModel = sharedViewModel,
                 pengeluaranViewModel = pengeluaranViewModel

@@ -188,12 +188,11 @@ fun BodyHome(
             Spacer(modifier = Modifier.height(8.dp))
         }
         item {
-            // Tambahkan TextField untuk pencarian di sini
             Search(
                 searchQuery = search,
                 onSearchQueryChanged = { newQuery ->
                     search = newQuery
-                    // Implementasi pencarian di sini (filter dataList dan listdata berdasarkan newQuery)
+
                     searchResultDataList = dataList.filter { it.kategori.contains(newQuery, ignoreCase = true) }
                     searchResultListData = listdata.filter { it.deskripsi.contains(newQuery, ignoreCase = true) }
                 }

@@ -1,6 +1,9 @@
 package com.example.keuangan.ui.halaman
 
+import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Build
+import android.widget.DatePicker
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,6 +15,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -37,13 +41,15 @@ import com.example.keuangan.util.PengeluaranViewModel
 import com.example.keuangan.util.SharedViewModel
 import com.example.keuangan.util.pemasukan
 import com.example.keuangan.util.pengeluaran
-import java.time.LocalDate
+import java.util.Calendar
+import java.util.Date
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddDataScreen(
+    context: Context,
     navController: NavController,
     sharedViewModel: SharedViewModel,
     pengeluaranViewModel: PengeluaranViewModel,
@@ -55,8 +61,27 @@ fun AddDataScreen(
     var kategori: String by remember { mutableStateOf("") }
     var deskripsi by remember { mutableStateOf("") }
     var nominalInt: Int by remember { mutableStateOf(0) }
-    var isPemasukanSelected by remember { mutableStateOf(true) } // Defaultnya Pemasukan,
-    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
+    var isPemasukanSelected by remember { mutableStateOf(true) }
+
+
+
+    val year: Int
+    val month: Int
+    val day: Int
+
+    val kalender = Calendar.getInstance()
+    year = kalender.get(Calendar.YEAR)
+    month = kalender.get(Calendar.MONTH)
+    day = kalender.get(Calendar.DAY_OF_MONTH)
+    kalender.time = Date()
+
+    val selectedDate = remember { mutableStateOf("") }
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+            selectedDate.value = "$dayOfMonth/${month + 1}/$year"
+        }, year, month, day
+    )
 
     val context = LocalContext.current
 
@@ -107,7 +132,6 @@ fun AddDataScreen(
                 )
                 Text(text = "Pengeluaran", modifier = Modifier.padding(start = 8.dp))
             }
-            // userID
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = id,
@@ -119,31 +143,22 @@ fun AddDataScreen(
                     Text(text = "id")
                 }
             )
-            // Name
             OutlinedTextField(
+                value = selectedDate.value,
+                onValueChange = { },
+                label = { Text(text = "Tanggal") },
+                readOnly = true,
                 modifier = Modifier.fillMaxWidth(),
-                value = tanggal,
-                onValueChange = {
-                    tanggal = it
-                },
-                label = {
-                    Text(text = "Tanggal")
+                trailingIcon = {
+                    IconButton(
+                        onClick = {
+                            datePickerDialog.show()
+                        }
+                    ) {
+                        Icon(imageVector = Icons.Filled.DateRange, contentDescription = "Date Picker")
+                    }
                 }
             )
-            // Profession
-            if (isPemasukanSelected) { OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = kategori,
-                onValueChange = { kategori = it },
-                label = { Text(text = "Kategori") })
-            } else {
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = deskripsi,
-                    onValueChange = { deskripsi = it },
-                    label = { Text(text = "Deskripsi") }
-                )
-            }
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = nominal,
@@ -158,6 +173,20 @@ fun AddDataScreen(
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
+            if (isPemasukanSelected) { OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = kategori,
+                onValueChange = { kategori = it },
+                label = { Text(text = "Kategori") })
+            } else {
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = deskripsi,
+                    onValueChange = { deskripsi = it },
+                    label = { Text(text = "Deskripsi") }
+                )
+            }
+
             // save Button
             Button(
                 modifier = Modifier
@@ -167,7 +196,7 @@ fun AddDataScreen(
                     if (isPemasukanSelected) {
                         val pemasukan = pemasukan(
                             id = id,
-                            tanggal = tanggal,
+                            tanggal = selectedDate.value,
                             kategori = kategori,
                             nominalpemasukan = nominalInt
                         )
@@ -175,7 +204,7 @@ fun AddDataScreen(
                     } else {
                         val pengeluaran = pengeluaran(
                             id = id,
-                            tanggal = tanggal,
+                            tanggal = selectedDate.value,
                             deskripsi = deskripsi,
                             nominalpengeluaran  = nominalInt
                         )
@@ -188,6 +217,9 @@ fun AddDataScreen(
         }
     }
 }
+
+
+
 
 
 //@Preview(showBackground = true)
