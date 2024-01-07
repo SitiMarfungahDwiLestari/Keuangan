@@ -11,8 +11,8 @@ Aplikasi ini dibuat untuk membantu pengguna dalam melakukan pencatatan keuangan,
 3. Mencari data -> Pengguna dapat menggunakan fitur search dengan memasukan kategori atau deskripsi yang sudah di masukkan sebelumnya saat add data<br>
 4. Memfilter data -> Pengguna dapat memfilter ingin melihat history dari pengeluaran/pemasukan/semuanya<br>
 5. Melihat saldo -> Pengguna dapat langsung melihat saldonya bertambah atau berkurang jika terjadi perubahan pada data mereka<br>
-6. Mengupdate data -> Pengguna dapat menekan salah satu card kemudian akan diarahkan ke halaman lain dan diminta untuk mencari id yang ingin diupdate<br> 
-7. Menghapus data -> Pengguna dapat menekan salah satu card kemudian akan di arahkan ke halaman lain dan diminta untuk mencari id yang ingin dihapus<br>
+6. Mengupdate data -> Pengguna dapat menekan salah satu card kemudian akan diarahkan ke halaman lain dan langsung bisa update data <br> 
+7. Menghapus data -> Pengguna dapat menekan salah satu card kemudian akan di arahkan ke halaman laindan langsung bisa hapus data<br>
 <h2> Pembagian tugas</h2>
 Siti Marfungah Dwi Lestari(20210140038) -> Add, Update, Delete dan Filter<br>
 Dianitasya Ananda Masta(20210140011) -> Search, Read, Saldo
