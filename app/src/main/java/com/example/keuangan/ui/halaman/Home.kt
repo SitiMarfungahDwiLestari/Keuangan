@@ -35,6 +35,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,6 +58,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.keuangan.util.pengeluaran
 
+enum class Filter {
+    ALL, PEMASUKAN, PENGELUARAN
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -125,6 +129,8 @@ fun BodyHome(
     var search by remember { mutableStateOf("") }
     var searchResultDataList by remember { mutableStateOf<List<pemasukan>>(emptyList()) }
     var searchResultListData by remember { mutableStateOf<List<pengeluaran>>(emptyList()) }
+    var currentFilter by remember { mutableStateOf(Filter.ALL) }
+    val updatedFilter = rememberUpdatedState(currentFilter)
 
 
     val context = LocalContext.current
@@ -177,50 +183,6 @@ fun BodyHome(
             }
         }
 
-        item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Button(onClick = {
-                    sharedViewModel.readAllData(context) { newDataList ->
-                        dataList = newDataList
-                        Log.d("GetDataScreen", "DataList size: ${dataList.size}")
-                    }
-                    pengeluaranViewModel.readAllData(context) { newListData ->
-                        listdata = newListData
-                        Log.d("GetDataScreen", "DataList size: ${listdata.size}")
-                    }
-
-                }) {
-                    Text(text = "Semua")
-                }
-
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Button(onClick = {
-                    sharedViewModel.readAllData(context) { newDataList ->
-                        dataList = newDataList
-                        Log.d("GetDataScreen", "DataList size: ${dataList.size}")
-                    }
-                }) {
-                    Text(text = "Pemasukan")
-                }
-
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Button(onClick = {
-                    pengeluaranViewModel.readAllData(context) { newListData ->
-                        listdata = newListData
-                        Log.d("GetDataScreen", "DataList size: ${listdata.size}")
-                    }
-                }) {
-                    Text(text = "Pengeluaran")
-                }
-            }
-        }
 
         item{
             Spacer(modifier = Modifier.height(8.dp))
@@ -365,125 +327,290 @@ fun BodyHome(
                     fontSize = 20.sp,
                 ))
         }
-        items(dataList) { data ->
-            Card(
+
+        item {
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
-                    .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
-                shape = RoundedCornerShape(8.dp),
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row(
+                Button(onClick = {
+                    currentFilter = Filter.ALL
+                }) {
+
+                    Text(text = "Semua")
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Button(onClick = {
+                    currentFilter = Filter.PEMASUKAN
+                }) {
+
+                    Text(text = "Pemasukan")
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Button(onClick = {
+                    currentFilter = Filter.PENGELUARAN
+                }) {
+
+                    Text(text = "Pengeluaran")
+                }
+            }
+        }
+        item{
+            FilteredData(
+                dataList = dataList,
+                listdata = listdata,
+                currentFilter = updatedFilter.value,
+                navController = navController
+            )
+        }
+    }
+}
+
+
+@Composable
+fun FilteredData(
+    dataList: List<pemasukan>,
+    listdata: List<pengeluaran>,
+    currentFilter: Filter,
+    navController: NavController
+){
+    when (currentFilter){
+        Filter.ALL -> {
+            dataList.forEach{data ->
+                Card(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-
-                    horizontalArrangement = Arrangement.SpaceAround
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
+                    shape = RoundedCornerShape(8.dp),
                 ) {
-
-                    Box {
-                        Icon(
-                            painter = painterResource(id = R.drawable.pemasukan),
-                            contentDescription = "pemasukan",
-                            tint = Color.Green
-                        )
-                    }
-
-
-                    Spacer(modifier = Modifier.padding(8.dp))
-
-                    Box (
-                        modifier = Modifier.width(150.dp)
-                    ){
-                        Text(
-                            text = "Rp. ${data.nominalpemasukan}",
-                            style = MaterialTheme.typography.bodyLarge
-                                .copy(
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-
-                        )
-                    }
-                    Column(
+                    Row(
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceAround
                     ) {
-                        Text(
-                            text = "${data.tanggal}",
-                            style = MaterialTheme.typography.bodySmall
-                                .copy(fontSize = 10.sp),
-                        )
+                        Box {
+                            Icon(
+                                painter = painterResource(id = R.drawable.pemasukan),
+                                contentDescription = "pemasukan",
+                                tint = Color.Green
+                            )
+                        }
 
-                        Text(
-                            text = "${data.kategori}",
-                            style = MaterialTheme.typography.bodyMedium
-                                .copy(fontSize = 16.sp)
-                        )
+                        Spacer(modifier = Modifier.padding(8.dp))
+
+                        Box(
+                            modifier = Modifier.width(150.dp)
+                        ) {
+                            Text(
+                                text = "Rp. ${data.nominalpemasukan}",
+                                style = MaterialTheme.typography.bodyLarge
+                                    .copy(
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                            )
+                        }
+
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "${data.tanggal}",
+                                style = MaterialTheme.typography.bodySmall
+                                    .copy(fontSize = 10.sp),
+                            )
+
+                            Text(
+                                text = "${data.kategori}",
+                                style = MaterialTheme.typography.bodyMedium
+                                    .copy(fontSize = 16.sp)
+                            )
+                        }
+                    }
+                }
+            }
+            listdata.forEach { data ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
+                    shape = RoundedCornerShape(8.dp),
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+                        Box {
+                            Icon(
+                                painter = painterResource(id = R.drawable.pengeluaran),
+                                contentDescription = "pengeluaran",
+                                tint = Color.Red
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.padding(8.dp))
+
+                        Box(
+                            modifier = Modifier.width(150.dp)
+                        ) {
+                            Text(
+                                text = "Rp. ${data.nominalpengeluaran}",
+                                style = MaterialTheme.typography.bodyLarge
+                                    .copy(
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                            )
+                        }
+
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "${data.tanggal}",
+                                style = MaterialTheme.typography.bodySmall
+                                    .copy(fontSize = 10.sp),
+                            )
+
+                            Text(
+                                text = "${data.deskripsi}",
+                                style = MaterialTheme.typography.bodyMedium
+                                    .copy(fontSize = 16.sp)
+                            )
+                        }
                     }
                 }
             }
         }
-
-        items(listdata) { data ->
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-                    .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
-                shape = RoundedCornerShape(8.dp),
-            ) {
-                Row(
+        Filter.PEMASUKAN -> {
+            dataList.forEach { data ->
+                Card(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-
-                    horizontalArrangement = Arrangement.SpaceAround
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
+                    shape = RoundedCornerShape(8.dp),
                 ) {
-
-                    Box {
-                        Icon(
-                            painter = painterResource(id = R.drawable.pengeluaran),
-                            contentDescription = "pengeluaran",
-                            tint = Color.Red
-                        )
-                    }
-
-
-                    Spacer(modifier = Modifier.padding(8.dp))
-
-                    Box(
-                        modifier = Modifier.width(150.dp)
-                    ) {
-                        Text(
-                            text = "Rp. ${data.nominalpengeluaran}",
-                            style = MaterialTheme.typography.bodyLarge
-                                .copy(
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-
-                        )
-                    }
-                    Column(
+                    Row(
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceAround
                     ) {
-                        Text(
-                            text = "${data.tanggal}",
-                            style = MaterialTheme.typography.bodySmall
-                                .copy(fontSize = 10.sp),
-                        )
+                        Box {
+                            Icon(
+                                painter = painterResource(id = R.drawable.pemasukan),
+                                contentDescription = "pemasukan",
+                                tint = Color.Green
+                            )
+                        }
 
-                        Text(
-                            text = "${data.deskripsi}",
-                            style = MaterialTheme.typography.bodyMedium
-                                .copy(fontSize = 16.sp)
-                        )
+                        Spacer(modifier = Modifier.padding(8.dp))
+
+                        Box(
+                            modifier = Modifier.width(150.dp)
+                        ) {
+                            Text(
+                                text = "Rp. ${data.nominalpemasukan}",
+                                style = MaterialTheme.typography.bodyLarge
+                                    .copy(
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                            )
+                        }
+
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "${data.tanggal}",
+                                style = MaterialTheme.typography.bodySmall
+                                    .copy(fontSize = 10.sp),
+                            )
+
+                            Text(
+                                text = "${data.kategori}",
+                                style = MaterialTheme.typography.bodyMedium
+                                    .copy(fontSize = 16.sp)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        Filter.PENGELUARAN -> {
+            listdata.forEach { data ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .clickable { navController.navigate(route = Screens.GetDataScreen.route) },
+                    shape = RoundedCornerShape(8.dp),
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+                        Box {
+                            Icon(
+                                painter = painterResource(id = R.drawable.pengeluaran),
+                                contentDescription = "pengeluaran",
+                                tint = Color.Red
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.padding(8.dp))
+
+                        Box(
+                            modifier = Modifier.width(150.dp)
+                        ) {
+                            Text(
+                                text = "Rp. ${data.nominalpengeluaran}",
+                                style = MaterialTheme.typography.bodyLarge
+                                    .copy(
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                            )
+                        }
+
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "${data.tanggal}",
+                                style = MaterialTheme.typography.bodySmall
+                                    .copy(fontSize = 10.sp),
+                            )
+
+                            Text(
+                                text = "${data.deskripsi}",
+                                style = MaterialTheme.typography.bodyMedium
+                                    .copy(fontSize = 16.sp)
+                            )
+                        }
                     }
                 }
             }
