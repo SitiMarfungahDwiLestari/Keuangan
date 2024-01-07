@@ -1,4 +1,4 @@
-<h1>Final Project Pengembangan Aplikasi Mobile 2024</h1>h1><hr><br>
+<h1>Final Project Pengembangan Aplikasi Mobile 2024</h1><hr><br>
 <h2>Project Name</h2><hr><br>
 Keuangan
 <br>
