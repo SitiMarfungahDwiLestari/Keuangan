@@ -1,5 +1,5 @@
-<b>Final Project Pengembangan Aplikasi Mobile 2024<b>
-<hr><br>
+<hr><b>Final Project Pengembangan Aplikasi Mobile 2024<b><hr>
+<br>
 Project Name
 <hr>
 Keuangan
