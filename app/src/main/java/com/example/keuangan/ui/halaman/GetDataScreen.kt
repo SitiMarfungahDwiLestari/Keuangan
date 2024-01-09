@@ -40,6 +40,8 @@ fun GetDataScreen(
     sharedViewModel: SharedViewModel,
     pengeluaranViewModel: PengeluaranViewModel
 ){
+    var dataList by remember { mutableStateOf<List<pemasukan>>(emptyList()) }
+
     var id: String by remember { mutableStateOf("") }
     var tanggal: String by remember { mutableStateOf("") }
     var nominal: String by remember { mutableStateOf("") }
