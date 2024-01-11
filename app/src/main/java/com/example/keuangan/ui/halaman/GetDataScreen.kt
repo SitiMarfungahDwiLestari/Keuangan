@@ -28,7 +28,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.keuangan.util.PengeluaranViewModel
-import com.example.keuangan.util.SharedViewModel
+import com.example.keuangan.util.PemasukanViewModel
 import com.example.keuangan.data.pemasukan
 import com.example.keuangan.data.pengeluaran
 
@@ -37,7 +37,7 @@ import com.example.keuangan.data.pengeluaran
 @Composable
 fun GetDataScreen(
     navController: NavController,
-    sharedViewModel: SharedViewModel,
+    pemasukanViewModel: PemasukanViewModel,
     pengeluaranViewModel: PengeluaranViewModel
 ){
     var dataList by remember { mutableStateOf<List<pemasukan>>(emptyList()) }
@@ -94,7 +94,7 @@ fun GetDataScreen(
                         .padding(start = 10.dp)
                         .width(100.dp),
                     onClick = {
-                        sharedViewModel.retrieveData(
+                        pemasukanViewModel.retrieveData(
                             id = id,
                             context = context
                         ) { data ->
@@ -180,7 +180,7 @@ fun GetDataScreen(
                         nominalpengeluaran = nominalInt
                     )
                     pengeluaranViewModel.saveDataKeluar(pengeluaran = pengeluaran, context = context)
-                    sharedViewModel.saveData(pemasukan = pemasukan, context = context)
+                    pemasukanViewModel.saveData(pemasukan = pemasukan, context = context)
                 }
             ) {
                 Text(text = "Save")
@@ -191,7 +191,7 @@ fun GetDataScreen(
                     .padding(top = 20.dp)
                     .fillMaxWidth(),
                 onClick = {
-                    sharedViewModel.deleteData(
+                    pemasukanViewModel.deleteData(
                         id = id,
                         context = context,
                         navController = navController

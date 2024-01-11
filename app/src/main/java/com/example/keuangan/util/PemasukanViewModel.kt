@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class SharedViewModel: ViewModel() {
+class PemasukanViewModel: ViewModel() {
     fun saveData(
         pemasukan: pemasukan,
         context: Context

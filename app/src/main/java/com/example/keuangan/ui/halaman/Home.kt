@@ -2,7 +2,6 @@ package com.example.keuangan.ui.halaman
 
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,17 +37,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.DefaultTintColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.keuangan.R
-import com.example.keuangan.nav.Screens
+import com.example.keuangan.nav.DestinasiNavigasi
 import com.example.keuangan.ui.theme.KeuanganTheme
 import com.example.keuangan.util.PengeluaranViewModel
-import com.example.keuangan.util.SharedViewModel
+import com.example.keuangan.util.PemasukanViewModel
 import com.example.keuangan.data.pemasukan
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -94,7 +92,7 @@ fun Home(
 
                 FloatingActionButton(
                     onClick = {
-                        navController.navigate(route = Screens.AddDataScreen.route)
+                        navController.navigate(route = DestinasiNavigasi.AddDataScreen.route)
                     },
                     shape = MaterialTheme.shapes.medium,
                     modifier = Modifier.padding(16.dp)
@@ -108,7 +106,7 @@ fun Home(
                 FloatingActionButton(
                     onClick = {
                         // Aksi yang ingin diambil ketika tombol tambahan ditekan
-                        navController.navigate(route = Screens.GetDataScreen.route)
+                        navController.navigate(route = DestinasiNavigasi.GetDataScreen.route)
                     },
                     shape = MaterialTheme.shapes.medium,
                     modifier = Modifier.padding(16.dp)
@@ -125,7 +123,7 @@ fun Home(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize(),
-            sharedViewModel = SharedViewModel(),
+            pemasukanViewModel = PemasukanViewModel(),
             pengeluaranViewModel = PengeluaranViewModel(),
             navController = navController
            )
@@ -135,7 +133,7 @@ fun Home(
 @Composable
 fun BodyHome(
     modifier: Modifier = Modifier,
-    sharedViewModel: SharedViewModel,
+    pemasukanViewModel: PemasukanViewModel,
     pengeluaranViewModel: PengeluaranViewModel,
     navController: NavController
 ) {
@@ -155,7 +153,7 @@ fun BodyHome(
 
     // LaunchedEffect yang dijalankan setiap kali terjadi perubahan pada dataList atau listdata
     LaunchedEffect(dataList, listdata) {
-        sharedViewModel.readAllData(context) { newDataList ->
+        pemasukanViewModel.readAllData(context) { newDataList ->
             dataList = newDataList.sortedByDescending { it.tanggal }
             searchResultDataList = newDataList.filter { it.kategori.contains(search, ignoreCase = true) }
             Log.d("GetDataScreen", "Sorted DataList: $dataList")

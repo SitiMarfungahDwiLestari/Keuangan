@@ -11,24 +11,24 @@ import com.example.keuangan.ui.halaman.AddDataScreen
 import com.example.keuangan.ui.halaman.GetDataScreen
 import com.example.keuangan.ui.halaman.Home
 import com.example.keuangan.util.PengeluaranViewModel
-import com.example.keuangan.util.SharedViewModel
+import com.example.keuangan.util.PemasukanViewModel
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    sharedViewModel: SharedViewModel,
+    pemasukanViewModel: PemasukanViewModel,
     pengeluaranViewModel: PengeluaranViewModel,
 
     ) {
     NavHost(
         navController = navController,
-        startDestination = Screens.Home.route
+        startDestination = DestinasiNavigasi.Home.route
     ) {
         // main screen
         composable(
-            route = Screens.Home.route
+            route = DestinasiNavigasi.Home.route
         ) {
             Home(
                 navController = navController,
@@ -36,23 +36,23 @@ fun NavGraph(
         }
         // get data screen
         composable(
-            route = Screens.GetDataScreen.route
+            route = DestinasiNavigasi.GetDataScreen.route
         ) {
             GetDataScreen(
                 navController = navController,
-                sharedViewModel = sharedViewModel,
+                pemasukanViewModel = pemasukanViewModel,
                 pengeluaranViewModel= pengeluaranViewModel
             )
         }
         // add data screen
         composable(
-            route = Screens.AddDataScreen.route
+            route = DestinasiNavigasi.AddDataScreen.route
         ) {
             val context = LocalContext.current
             AddDataScreen(
                 context = context,
                 navController = navController,
-                sharedViewModel = sharedViewModel,
+                pemasukanViewModel = pemasukanViewModel,
                 pengeluaranViewModel = pengeluaranViewModel
                 )
         }

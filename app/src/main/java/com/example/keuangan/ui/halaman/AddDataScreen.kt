@@ -34,7 +34,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.keuangan.util.PengeluaranViewModel
-import com.example.keuangan.util.SharedViewModel
+import com.example.keuangan.util.PemasukanViewModel
 import com.example.keuangan.data.pemasukan
 import com.example.keuangan.data.pengeluaran
 import java.util.Calendar
@@ -47,10 +47,10 @@ import java.util.Date
 fun AddDataScreen(
     context: Context,
     navController: NavController,
-    sharedViewModel: SharedViewModel,
+    pemasukanViewModel: PemasukanViewModel,
     pengeluaranViewModel: PengeluaranViewModel,
 
-){
+    ){
     var id: String by remember { mutableStateOf("") }
     var tanggal: String by remember { mutableStateOf("") }
     var nominal: String by remember { mutableStateOf("") }
@@ -195,7 +195,7 @@ fun AddDataScreen(
                             kategori = kategori,
                             nominalpemasukan = nominalInt
                         )
-                        sharedViewModel.saveData(pemasukan = pemasukan, context = context)
+                        pemasukanViewModel.saveData(pemasukan = pemasukan, context = context)
                     } else {
                         val pengeluaran = pengeluaran(
                             id = id,
@@ -222,7 +222,7 @@ fun AddDataScreen(
 //fun PreviewAddDataScreen() {
 //    KeuanganTheme {
 //        val navController = rememberNavController()
-//        val sharedViewModel = SharedViewModel()
+//        val sharedViewModel = PemasukanViewModel()
 //        val pengeluaranViewModel = PengeluaranViewModel()
 //        AddDataScreen(navController, sharedViewModel, pengeluaranViewModel)
 //    }

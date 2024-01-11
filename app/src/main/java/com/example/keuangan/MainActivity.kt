@@ -13,14 +13,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.keuangan.nav.NavGraph
 import com.example.keuangan.ui.theme.KeuanganTheme
 import com.example.keuangan.util.PengeluaranViewModel
-import com.example.keuangan.util.SharedViewModel
+import com.example.keuangan.util.PemasukanViewModel
 
 
 
 class MainActivity : ComponentActivity() {
 
     private lateinit var navController: NavHostController
-    private val sharedViewModel: SharedViewModel by viewModels()
+    private val pemasukanViewModel: PemasukanViewModel by viewModels()
     private val pengeluaranViewModel: PengeluaranViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     navController = rememberNavController()
                     NavGraph(
                         navController = navController,
-                        sharedViewModel = sharedViewModel,
+                        pemasukanViewModel = pemasukanViewModel,
                         pengeluaranViewModel = pengeluaranViewModel
                     )
                 }
