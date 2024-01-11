@@ -67,10 +67,8 @@ fun Home(
     modifier: Modifier = Modifier,
 
     ){
-//    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold (
-//        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
 
         topBar = {
             TopAppBar(
@@ -178,8 +176,6 @@ fun BodyHome(
         modifier = Modifier
             .padding(start = 20.dp, end = 20.dp, top = 65.dp)
             .fillMaxSize(),
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
             Box(
@@ -187,37 +183,43 @@ fun BodyHome(
                     .height(150.dp)
                     .fillMaxWidth()
                     .background(
-                        color = Color.Gray,
-                        shape = RoundedCornerShape(size = 16.dp)
-                    )
+                        color = Color(0xFF495D92),
+                        shape = RoundedCornerShape(8.dp),
+                    ),
+
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.Start
-                ) {
+                        .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.Start,
+                    ) {
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth()
+                            .fillMaxWidth(),
+
                     ) {
                         Text(
                             "Saldo",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 17.sp,
+
+                            fontSize = 16.sp,
                             color = Color.White
                         )
                     }
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text("Rp $saldo",
-                        color = Color.Green,
-                        fontSize = 17.sp
+                    Box {
+                        Text("Rp $saldo",
+                            color = Color.White,
+                            fontSize = 30.sp,
+                            fontWeight = FontWeight.Bold,
                         )
+                    }
+
                     Row(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(16.dp),
+                            .padding(18.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.Top
                     ) {
@@ -232,11 +234,24 @@ fun BodyHome(
                                 fontSize = 15.sp,
                                 color = Color.White
                             )
-                            Text(
-                                "Rp $saldomasuk",
-                                color = Color.Green,
-                                fontSize = 15.sp
-                            )
+                            Row{
+                                Box{
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.pemasukan),
+                                        contentDescription = "pemasukan",
+                                        tint = Color.Green
+                                    )
+                                }
+                                Box{
+                                    Text(
+                                        "Rp $saldomasuk",
+                                        color = Color.Green,
+                                        fontSize = 18.sp
+                                    )
+                                }
+
+                            }
+
                         }
                         Column(
                             modifier = Modifier.weight(1f),
@@ -249,21 +264,29 @@ fun BodyHome(
                                 fontSize = 15.sp,
                                 color = Color.White
                             )
-                            Text(
-                                text = "Rp $saldokeluar",
-                                color = Color.Red,
-                                fontSize = 15.sp
-                            )
+                            Row{
+                                Box {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.pengeluaran),
+                                        contentDescription = "pengeluaran",
+                                        tint = Color.Red
+                                    )
+                                }
+                                Box{
+                                    Text(
+                                        text = "Rp $saldokeluar",
+                                        color = Color.Red,
+                                        fontSize = 18.sp
+                                    )
+                                }
+                            }
+
                         }
                     }
                 }
             }
         }
 
-
-        item{
-            Spacer(modifier = Modifier.height(8.dp))
-        }
         item {
             Search(
                 searchQuery = search,

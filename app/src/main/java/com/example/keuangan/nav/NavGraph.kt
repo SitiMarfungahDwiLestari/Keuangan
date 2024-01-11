@@ -8,7 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.keuangan.ui.halaman.AddDataScreen
-import com.example.keuangan.ui.halaman.AddPengeluaran
 import com.example.keuangan.ui.halaman.GetDataScreen
 import com.example.keuangan.ui.halaman.Home
 import com.example.keuangan.util.PengeluaranViewModel
@@ -56,15 +55,6 @@ fun NavGraph(
                 sharedViewModel = sharedViewModel,
                 pengeluaranViewModel = pengeluaranViewModel
                 )
-        }
-        //add Pengeluaran
-        composable(
-            route = Screens.AddPengeluaran.route
-        ) {
-            AddPengeluaran(
-                navController = navController,
-                pengeluaranViewModel = pengeluaranViewModel
-            )
         }
     }
 }

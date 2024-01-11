@@ -75,7 +75,6 @@ fun GetDataScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // userID
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -90,7 +89,6 @@ fun GetDataScreen(
                         Text(text = "id")
                     }
                 )
-                // get user data Button
                 Button(
                     modifier = Modifier
                         .padding(start = 10.dp)
@@ -119,7 +117,6 @@ fun GetDataScreen(
                     Text(text = "Get Data")
                 }
             }
-            // Name
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = tanggal,
@@ -130,7 +127,6 @@ fun GetDataScreen(
                     Text(text = "Tanggal")
                 }
             )
-            // Profession
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = kategori,
@@ -141,7 +137,6 @@ fun GetDataScreen(
                     Text(text = "Kategori")
                 }
             )
-            // Profession
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = deskripsi,
@@ -152,7 +147,6 @@ fun GetDataScreen(
                     Text(text = "deskripsi")
                 }
             )
-            // Age
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = nominal,
