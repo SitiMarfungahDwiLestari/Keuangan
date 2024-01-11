@@ -138,7 +138,6 @@ fun AddDataScreen(
                 onValueChange = {
                     id = it
                 },
-                enabled = false,
                 label = {
                     Text(text = "id")
                 }

@@ -2,6 +2,7 @@ package com.example.keuangan.ui.halaman
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -379,7 +380,7 @@ fun BodyHome(
                 dataList = dataList,
                 listdata = listdata,
                 currentFilter = updatedFilter.value,
-                navController = navController
+                navController = navController,
             )
         }
     }
@@ -391,7 +392,7 @@ fun FilteredData(
     dataList: List<pemasukan>,
     listdata: List<pengeluaran>,
     currentFilter: Filter,
-    navController: NavController
+    navController: NavController,
 ){
     when (currentFilter){
         Filter.ALL -> {

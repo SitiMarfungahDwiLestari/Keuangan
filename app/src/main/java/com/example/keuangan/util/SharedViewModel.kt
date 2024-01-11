@@ -17,9 +17,10 @@ class SharedViewModel: ViewModel() {
         pemasukan: pemasukan,
         context: Context
     ) = CoroutineScope(Dispatchers.IO).launch {
-        val fireStoreRef = Firebase.firestore.collection("pemasukan").document()
-
-        try {
+        val fireStoreRef = Firebase.firestore
+            .collection("pemasukan")
+            .document(pemasukan.id)
+        try{
             pemasukan.id = fireStoreRef.id
             fireStoreRef.set(pemasukan)
                 .addOnSuccessListener {
