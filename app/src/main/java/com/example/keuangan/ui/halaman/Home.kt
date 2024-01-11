@@ -38,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.DefaultTintColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -287,10 +288,8 @@ fun BodyHome(
                         .fillMaxSize()
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically,
-
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
-
                     Box {
                         Icon(
                             painter = painterResource(id = R.drawable.pemasukan),
@@ -298,11 +297,12 @@ fun BodyHome(
                             tint = Color.Green
                         )
                     }
+
                     Spacer(modifier = Modifier.padding(8.dp))
 
-                    Box (
-                        modifier = Modifier.width(150.dp)
-                    ){
+                    Box(
+                        modifier = Modifier.width(100.dp)
+                    ) {
                         Text(
                             text = "Rp. ${data.nominalpemasukan}",
                             style = MaterialTheme.typography.bodyLarge
@@ -312,21 +312,40 @@ fun BodyHome(
                                 )
                         )
                     }
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+
+
+                    Box(
+                        modifier = Modifier.width(150.dp)
+                    ){
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "${data.tanggal}",
+                                style = MaterialTheme.typography.bodySmall
+                                    .copy(fontSize = 10.sp),
+                            )
+
+                            Text(
+                                text = "${data.kategori}",
+                                style = MaterialTheme.typography.bodyMedium
+                                    .copy(fontSize = 16.sp)
+                            )
+                        }
+                    }
+
+
+                    Box(
+                        modifier = Modifier.width(20.dp)
                     ) {
                         Text(
-                            text = "${data.tanggal}",
-                            style = MaterialTheme.typography.bodySmall
-                                .copy(fontSize = 10.sp),
-                        )
-
-                        Text(
-                            text = "${data.kategori}",
-                            style = MaterialTheme.typography.bodyMedium
-                                .copy(fontSize = 16.sp)
+                            text = "${data.id}",
+                            style = MaterialTheme.typography.bodyLarge
+                                .copy(
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
                         )
                     }
                 }
@@ -344,10 +363,8 @@ fun BodyHome(
                         .fillMaxSize()
                         .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically,
-
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
-
                     Box {
                         Icon(
                             painter = painterResource(id = R.drawable.pengeluaran),
@@ -356,11 +373,10 @@ fun BodyHome(
                         )
                     }
 
-
                     Spacer(modifier = Modifier.padding(8.dp))
 
                     Box(
-                        modifier = Modifier.width(150.dp)
+                        modifier = Modifier.width(100.dp)
                     ) {
                         Text(
                             text = "Rp. ${data.nominalpengeluaran}",
@@ -369,24 +385,40 @@ fun BodyHome(
                                     fontSize = 20.sp,
                                     fontWeight = FontWeight.Bold
                                 )
-
                         )
                     }
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+
+                    Box(
+                        modifier = Modifier.width(150.dp)
+                    ){
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "${data.tanggal}",
+                                style = MaterialTheme.typography.bodySmall
+                                    .copy(fontSize = 10.sp),
+                            )
+
+                            Text(
+                                text = "${data.deskripsi}",
+                                style = MaterialTheme.typography.bodyMedium
+                                    .copy(fontSize = 16.sp)
+                            )
+                        }
+                    }
+
+                    Box(
+                        modifier = Modifier.width(20.dp)
                     ) {
                         Text(
-                            text = "${data.tanggal}",
-                            style = MaterialTheme.typography.bodySmall
-                                .copy(fontSize = 10.sp),
-                        )
-
-                        Text(
-                            text = "${data.deskripsi}",
-                            style = MaterialTheme.typography.bodyMedium
-                                .copy(fontSize = 16.sp)
+                            text = "${data.id}",
+                            style = MaterialTheme.typography.bodyLarge
+                                .copy(
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
                         )
                     }
                 }
@@ -480,7 +512,7 @@ fun FilteredData(
                         Spacer(modifier = Modifier.padding(8.dp))
 
                         Box(
-                            modifier = Modifier.width(150.dp)
+                            modifier = Modifier.width(100.dp)
                         ) {
                             Text(
                                 text = "Rp. ${data.nominalpemasukan}",
@@ -492,20 +524,39 @@ fun FilteredData(
                             )
                         }
 
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally
+
+                        Box(
+                            modifier = Modifier.width(150.dp)
+                        ){
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "${data.tanggal}",
+                                    style = MaterialTheme.typography.bodySmall
+                                        .copy(fontSize = 10.sp),
+                                )
+
+                                Text(
+                                    text = "${data.kategori}",
+                                    style = MaterialTheme.typography.bodyMedium
+                                        .copy(fontSize = 16.sp)
+                                )
+                            }
+                        }
+
+
+                        Box(
+                            modifier = Modifier.width(20.dp)
                         ) {
                             Text(
-                                text = "${data.tanggal}",
-                                style = MaterialTheme.typography.bodySmall
-                                    .copy(fontSize = 10.sp),
-                            )
-
-                            Text(
-                                text = "${data.kategori}",
-                                style = MaterialTheme.typography.bodyMedium
-                                    .copy(fontSize = 16.sp)
+                                text = "${data.id}",
+                                style = MaterialTheme.typography.bodyLarge
+                                    .copy(
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
                             )
                         }
                     }
@@ -536,7 +587,7 @@ fun FilteredData(
                         Spacer(modifier = Modifier.padding(8.dp))
 
                         Box(
-                            modifier = Modifier.width(150.dp)
+                            modifier = Modifier.width(100.dp)
                         ) {
                             Text(
                                 text = "Rp. ${data.nominalpengeluaran}",
@@ -548,20 +599,37 @@ fun FilteredData(
                             )
                         }
 
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                        Box(
+                            modifier = Modifier.width(150.dp)
+                        ){
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "${data.tanggal}",
+                                    style = MaterialTheme.typography.bodySmall
+                                        .copy(fontSize = 10.sp),
+                                )
+
+                                Text(
+                                    text = "${data.deskripsi}",
+                                    style = MaterialTheme.typography.bodyMedium
+                                        .copy(fontSize = 16.sp)
+                                )
+                            }
+                        }
+
+                        Box(
+                            modifier = Modifier.width(20.dp)
                         ) {
                             Text(
-                                text = "${data.tanggal}",
-                                style = MaterialTheme.typography.bodySmall
-                                    .copy(fontSize = 10.sp),
-                            )
-
-                            Text(
-                                text = "${data.deskripsi}",
-                                style = MaterialTheme.typography.bodyMedium
-                                    .copy(fontSize = 16.sp)
+                                text = "${data.id}",
+                                style = MaterialTheme.typography.bodyLarge
+                                    .copy(
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
                             )
                         }
                     }
@@ -594,7 +662,7 @@ fun FilteredData(
                         Spacer(modifier = Modifier.padding(8.dp))
 
                         Box(
-                            modifier = Modifier.width(150.dp)
+                            modifier = Modifier.width(100.dp)
                         ) {
                             Text(
                                 text = "Rp. ${data.nominalpemasukan}",
@@ -606,20 +674,39 @@ fun FilteredData(
                             )
                         }
 
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally
+
+                        Box(
+                            modifier = Modifier.width(150.dp)
+                        ){
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "${data.tanggal}",
+                                    style = MaterialTheme.typography.bodySmall
+                                        .copy(fontSize = 10.sp),
+                                )
+
+                                Text(
+                                    text = "${data.kategori}",
+                                    style = MaterialTheme.typography.bodyMedium
+                                        .copy(fontSize = 16.sp)
+                                )
+                            }
+                        }
+
+
+                        Box(
+                            modifier = Modifier.width(20.dp)
                         ) {
                             Text(
-                                text = "${data.tanggal}",
-                                style = MaterialTheme.typography.bodySmall
-                                    .copy(fontSize = 10.sp),
-                            )
-
-                            Text(
-                                text = "${data.kategori}",
-                                style = MaterialTheme.typography.bodyMedium
-                                    .copy(fontSize = 16.sp)
+                                text = "${data.id}",
+                                style = MaterialTheme.typography.bodyLarge
+                                    .copy(
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
                             )
                         }
                     }
@@ -652,7 +739,7 @@ fun FilteredData(
                         Spacer(modifier = Modifier.padding(8.dp))
 
                         Box(
-                            modifier = Modifier.width(150.dp)
+                            modifier = Modifier.width(100.dp)
                         ) {
                             Text(
                                 text = "Rp. ${data.nominalpengeluaran}",
@@ -664,20 +751,37 @@ fun FilteredData(
                             )
                         }
 
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                        Box(
+                            modifier = Modifier.width(150.dp)
+                        ){
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "${data.tanggal}",
+                                    style = MaterialTheme.typography.bodySmall
+                                        .copy(fontSize = 10.sp),
+                                )
+
+                                Text(
+                                    text = "${data.deskripsi}",
+                                    style = MaterialTheme.typography.bodyMedium
+                                        .copy(fontSize = 16.sp)
+                                )
+                            }
+                        }
+
+                        Box(
+                            modifier = Modifier.width(20.dp)
                         ) {
                             Text(
-                                text = "${data.tanggal}",
-                                style = MaterialTheme.typography.bodySmall
-                                    .copy(fontSize = 10.sp),
-                            )
-
-                            Text(
-                                text = "${data.deskripsi}",
-                                style = MaterialTheme.typography.bodyMedium
-                                    .copy(fontSize = 16.sp)
+                                text = "${data.id}",
+                                style = MaterialTheme.typography.bodyLarge
+                                    .copy(
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
                             )
                         }
                     }
