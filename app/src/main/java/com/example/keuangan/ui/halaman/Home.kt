@@ -48,12 +48,12 @@ import com.example.keuangan.nav.Screens
 import com.example.keuangan.ui.theme.KeuanganTheme
 import com.example.keuangan.util.PengeluaranViewModel
 import com.example.keuangan.util.SharedViewModel
-import com.example.keuangan.util.pemasukan
+import com.example.keuangan.data.pemasukan
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.example.keuangan.util.pengeluaran
+import com.example.keuangan.data.pengeluaran
 
 enum class Filter {
     ALL, PEMASUKAN, PENGELUARAN
@@ -143,6 +143,8 @@ fun BodyHome(
     var dataList by remember { mutableStateOf<List<pemasukan>>(emptyList()) }
     var listdata by remember { mutableStateOf<List<pengeluaran>>(emptyList()) }
     var saldo by remember { mutableStateOf(0) }
+    var saldomasuk by  remember { mutableStateOf(0) }
+    var saldokeluar by  remember { mutableStateOf(0) }
     var search by remember { mutableStateOf("") }
     var searchResultDataList by remember { mutableStateOf<List<pemasukan>>(emptyList()) }
     var searchResultListData by remember { mutableStateOf<List<pengeluaran>>(emptyList()) }
@@ -167,6 +169,8 @@ fun BodyHome(
 
         // Hitung saldo
         saldo = dataList.sumBy { it.nominalpemasukan } - listdata.sumBy { it.nominalpengeluaran }
+        saldomasuk = dataList.sumBy { it.nominalpemasukan }
+        saldokeluar = listdata.sumBy{it.nominalpengeluaran }
     }
 
     LazyColumn(
@@ -190,12 +194,67 @@ fun BodyHome(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.Start
                 ) {
-                    Text("Saldo Terkini")
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text("Rp $saldo")
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            "Saldo",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 17.sp,
+                            color = Color.White
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text("Rp $saldo",
+                        color = Color.Green,
+                        fontSize = 17.sp
+                        )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.Top,
+                            horizontalAlignment = Alignment.Start
+                        ) {
+                            Text(
+                                text = "Pemasukan",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 15.sp,
+                                color = Color.White
+                            )
+                            Text(
+                                "Rp $saldomasuk",
+                                color = Color.Green,
+                                fontSize = 15.sp
+                            )
+                        }
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.Top,
+                            horizontalAlignment = Alignment.End
+                        ) {
+                            Text(
+                                text = "Pengeluaran",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 15.sp,
+                                color = Color.White
+                            )
+                            Text(
+                                text = "Rp $saldokeluar",
+                                color = Color.Red,
+                                fontSize = 15.sp
+                            )
+                        }
+                    }
                 }
             }
         }

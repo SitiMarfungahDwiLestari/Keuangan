@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.keuangan.util.PengeluaranViewModel
 import com.example.keuangan.util.SharedViewModel
-import com.example.keuangan.util.pemasukan
-import com.example.keuangan.util.pengeluaran
+import com.example.keuangan.data.pemasukan
+import com.example.keuangan.data.pengeluaran
 
 
 @OptIn(ExperimentalMaterial3Api::class)

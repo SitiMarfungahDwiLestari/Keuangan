@@ -1,4 +1,4 @@
-package com.example.keuangan.util
+package com.example.keuangan.data
 
 data class pemasukan (
     var id: String = "",

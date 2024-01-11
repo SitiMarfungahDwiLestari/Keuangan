@@ -27,7 +27,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.keuangan.util.PengeluaranViewModel
-import com.example.keuangan.util.pengeluaran
+import com.example.keuangan.data.pengeluaran
 
 
 @OptIn(ExperimentalMaterial3Api::class)
