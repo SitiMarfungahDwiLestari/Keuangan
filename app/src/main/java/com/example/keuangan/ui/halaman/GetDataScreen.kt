@@ -163,7 +163,7 @@ fun GetDataScreen(
                     }
                 },
                 label = {
-                    Text(text = "Age")
+                    Text(text = "Nominal")
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
